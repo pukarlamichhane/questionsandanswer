@@ -2,7 +2,7 @@ import Login from "./page/Login";
 import {createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Signup from "./page/Signup";
 import Email from "./page/Email";
-import Admin from "./page/Admin";
+import Productpage from "./page/Productpage";
 
 
 export default function App() {
@@ -20,8 +20,8 @@ export default function App() {
     element:<Email></Email>
   },
   {
-    path:"/admin/dashboard",
-    element:<Admin></Admin>
+    path:"/productpage",
+    element:<Productpage></Productpage>
   }
 ])
   return (
