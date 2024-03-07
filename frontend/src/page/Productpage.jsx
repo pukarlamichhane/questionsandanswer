@@ -10,6 +10,7 @@ const Productpage = () => {
   const [selectedSize, setSelectedSize] = useState(32);
   const [price, setPrice] = useState(null);
   const [quantity, setQuantity] = useState(null);
+  const dispatch =useDispatch()
 
   // Mocked items data
   const items = [
@@ -33,6 +34,9 @@ const Productpage = () => {
     }
   }, [selectedSize]);
 
+  const send =(e)=>{
+    dispatch(addToCart(e))
+  }
   // Handle size change
   const handleSizeChange = (e) => {
     const newSize = parseInt(e.target.value);
@@ -99,7 +103,7 @@ const Productpage = () => {
               +
             </button>
           </div>
-          <button className="bg-violet-800 text-white font-semibold py-3 px-16 rounded-xl h-full" >Add to Cart</button>
+          <button className="bg-violet-800 text-white font-semibold py-3 px-16 rounded-xl h-full"onClick={send} >Add to Cart</button>
         </div>
       </div>
     </div>
