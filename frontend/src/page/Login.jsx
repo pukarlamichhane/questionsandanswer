@@ -20,20 +20,20 @@ const Login = () => {
   };
 
   return (
-    <div className='w-full h-screen'>
+    <div className='w-full min-h-screen flex flex-col md:flex-row items-center justify-center'>
       <img
-        className='hidden sm:block absolute w-full h-full object-cover'
+        className='hidden md:block md:w-1/2 object-cover'
         src='https://media.cntraveler.com/photos/56420d2496771ce632e3df6a/master/pass/sneakers-tout.jpg'
         alt='/'
       />
-      <div className='bg-grey/60 fixed top-0 left-0 w-full h-screen'></div>
-      <div className='fixed w-full px-4 py-24 z-50'>
-        <div className='max-w-[450px] h-[450px] mx-auto bg-black/75 text-white'>
+      <div className='bg-grey/60 fixed top-0 left-0 w-full h-full md:hidden'></div>
+      <div className='w-full md:w-1/2 px-4 py-16 z-50'>
+        <div className='max-w-[450px] mx-auto bg-black/75 text-white rounded-lg shadow-lg'>
           <div className='max-w-[320px] mx-auto py-16'>
-            <h1 className='text-3xl font-bold'>Sign In</h1>
-            <form className='w-full flex flex-col py-4' onSubmit={handleSubmit}>
+            <h1 className='text-3xl font-bold mb-8'>Sign In</h1>
+            <form className='w-full flex flex-col' onSubmit={handleSubmit}>
               <input
-                className='p-3 my-2 bg-gray-700 rounded'
+                className='p-3 mb-4 bg-gray-700 rounded'
                 type='email'
                 placeholder='Email'
                 autoComplete='email'
@@ -42,7 +42,7 @@ const Login = () => {
               />
               <div className='relative'>
                 <input
-                  className='p-3 my-2 w-full bg-gray-700 rounded pr-10'
+                  className='p-3 mb-4 w-full bg-gray-700 rounded pr-10'
                   type={showPassword ? 'text' : 'password'}
                   placeholder='Password'
                   autoComplete='current-password'
@@ -67,7 +67,7 @@ const Login = () => {
               <div className='flex justify-between items-center text-sm text-white-600'>
                 <p>Forget password?</p>
                 <p>
-                  <Link to='/signup'>New to Sneakerhouse? </Link>
+                  <Link to='/signup'>New to Sneakerhouse?</Link>
                 </p>
               </div>
             </form>
