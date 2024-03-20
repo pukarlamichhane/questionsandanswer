@@ -1,16 +1,24 @@
-const express = require('express'); 
+const express = require('express');
 const connectDB = require('./db/connectDB');
 require('dotenv').config();
 
-const app = express(); 
-const PORT = process.env.PORT ||8000; 
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const useroutes  = require('./routes/userRoutes');
+const productroutes  = require('./routes/productRoutes');
 
+const app = express();
+const PORT = process.env.PORT || 8000;
 
-connectDB()
-app.get('/', (req, res) => { 
-  res.send('Hello World!'); 
-}); 
+app.use(bodyParser.json());
+app.use(cookieParser()); // Use cookie-parser middleware
 
-app.listen(PORT, () => { 
-  console.log(`Server is listening at port :${PORT}`); 
-}); 
+connectDB();
+
+// Correct the path prefix for user routes
+app.use("/api/user", useroutes);
+app.use("/api/product",productroutes);
+
+app.listen(PORT, () => {
+  console.log(`Server is listening at port :${PORT}`);
+});

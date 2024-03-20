@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 // Middleware to check user role before accessing routes
 const checkRole = (role) => (req, res, next) => {
   const token = req.cookies.token; // Access token from cookie
@@ -17,4 +19,4 @@ const checkRole = (role) => (req, res, next) => {
   });
 };
 
-export default checkRole;
+module.exports= { checkRole };
