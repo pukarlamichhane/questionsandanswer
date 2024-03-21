@@ -1,7 +1,6 @@
 const express = require('express');
 const connectDB = require('./db/connectDB');
 require('dotenv').config();
-
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const useroutes  = require('./routes/userRoutes');
@@ -14,6 +13,13 @@ app.use(bodyParser.json());
 app.use(cookieParser()); // Use cookie-parser middleware
 
 connectDB();
+
+//add cloudinary config 
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Correct the path prefix for user routes
 app.use("/api/user", useroutes);
