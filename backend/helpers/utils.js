@@ -1,5 +1,7 @@
 const crypto = require("crypto");
 const cloudinary=require("cloudinary")
+const sgMail = require('@sendgrid/mail');
+
 // Arrow function to generate a random number between min (inclusive) and max (exclusive)
 const generateRandomNumber = () => {
     return crypto.randomInt(0, 1000000);
@@ -19,6 +21,25 @@ const uploadImageAndUpdateURL = async (image) => {
     }
 };
 
+sgMail.setApiKey(process.env.SendGrid_API);
+
+const sendEmail = (recipient, sender, subject, text) => {
+    const msg = {
+      to: recipient,
+      from: sender,
+      subject: subject,
+      text: text,
+    };
+  
+    sgMail.send(msg)
+      .then(() => {
+        console.log('Email sent');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+};
+
 
 // Export the function
-module.exports = {generateRandomNumber,uploadImageAndUpdateURL};
+module.exports = {generateRandomNumber,uploadImageAndUpdateURL,sendEmail};
