@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+//import backgroundImage from './background.jpg'; // Import your background image
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -13,66 +14,62 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
+    console.log('Signup Email:', email);
+    console.log('Signup Password:', password);
     setEmail('');
     setPassword('');
   };
 
   return (
-    <div className='w-full min-h-screen flex flex-col md:flex-row items-center justify-center'>
-      <img
-        className='hidden md:block md:w-1/2 object-cover'
-        src='https://media.cntraveler.com/photos/56420d2496771ce632e3df6a/master/pass/sneakers-tout.jpg'
-        alt='/'
-      />
-      <div className='bg-grey/60 fixed top-0 left-0 w-full h-full md:hidden'></div>
-      <div className='w-full md:w-1/2 px-4 py-16 z-50'>
-        <div className='max-w-[450px] mx-auto bg-black/75 text-white rounded-lg shadow-lg'>
-          <div className='max-w-[320px] mx-auto py-16'>
-            <h1 className='text-3xl font-bold mb-8'>Sign In</h1>
-            <form className='w-full flex flex-col' onSubmit={handleSubmit}>
-              <input
-                className='p-3 mb-4 bg-gray-700 rounded'
-                type='email'
-                placeholder='Email'
-                autoComplete='email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+    <div
+      className='w-full min-h-screen flex justify-center items-center bg-cover bg-center'
+      style={{ backgroundImage: `url(https://media.cntraveler.com/photos/56420d2496771ce632e3df6a/master/pass/sneakers-tout.jpg)` }}
+    >
+      <div className='max-w-md w-full px-4 border-2 border-gray-800 rounded bg-white'>
+        <h1 className='text-3xl font-bold text-center py-4 text-black'>Sign up</h1>
+        <form className='mt-8 px-4 py-6' onSubmit={handleSubmit}>
+          <input
+            className='p-3 my-2 w-full bg-white rounded border border-gray-300 text-black'
+            type='email'
+            placeholder='Email'
+            autoComplete='email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <div className='relative'>
+            <input
+              className='p-3 my-2 w-full bg-white rounded border border-gray-300 pr-10 text-black'
+              type={showPassword ? 'text' : 'password'}
+              placeholder='Password'
+              autoComplete='current-password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {showPassword ? (
+              <FaEyeSlash
+                className='absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer'
+                onClick={togglePasswordVisibility}
               />
-              <div className='relative'>
-                <input
-                  className='p-3 mb-4 w-full bg-gray-700 rounded pr-10'
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder='Password'
-                  autoComplete='current-password'
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                {showPassword ? (
-                  <FaEyeSlash
-                    className='absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer'
-                    onClick={togglePasswordVisibility}
-                  />
-                ) : (
-                  <FaEye
-                    className='absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer'
-                    onClick={togglePasswordVisibility}
-                  />
-                )}
-              </div>
-              <button type='submit' className='bg-red-600 py-3 my-6 rounded font-bold'>
-                Sign In
-              </button>
-              <div className='flex justify-between items-center text-sm text-white-600'>
-                <p>Forget password?</p>
-                <p>
-                  <Link to='/signup'>New to Sneakerhouse?</Link>
-                </p>
-              </div>
-            </form>
+            ) : (
+              <FaEye
+                className='absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer'
+                onClick={togglePasswordVisibility}
+              />
+            )}
           </div>
-        </div>
+          <button type='submit' className='bg-red-600 py-3 my-6 rounded w-full text-white font-bold'>
+            Login
+          </button>
+          <div className='flex justify-between items-center text-sm'>
+            <label className='flex items-center text-black'>
+              <input type='checkbox' className='mr-2' />
+              <span>Remember me</span>
+            </label>
+            <span>
+              <Link to="/signup" className='text-gray-500'>Forget password</Link>
+            </span>
+          </div>
+        </form>
       </div>
     </div>
   );
