@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './page/Login';
 import Signup from './page/Signup';
 import Email from './page/Email';
-import Productpage from './page/Productpage';
 import Dashboard from './page/admin/Dashboard';
+import Navbar from './components/Navbar';
 
 // Define routes
 const AppRoutes = () => {
@@ -12,7 +12,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/verify" element={<Email />} />
-      <Route path="/productpage" element={<Productpage />} />
+      <Route path="/productpage" element={<Navbar />} />
       <Route path="/admin/*" element={<AdminRoutes />} />
     </Routes>
   );
