@@ -9,7 +9,7 @@ const Productpage = () => {
   const [selectedSize, setSelectedSize] = useState(32);
   const [price, setPrice] = useState(null);
   const [quantity, setQuantity] = useState(null);
-  const dispatch =useDispatch()
+  //const dispatch =useDispatch()
 
   // Mocked items data
   const items = [
