@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-const Password = () => {
+const Change = () => {
   const [password1, setPassword1] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -101,4 +101,4 @@ const Password = () => {
   );
 };
 
-export default Password;
+export default Change;
