@@ -1,6 +1,6 @@
 import  { useState, useEffect, useRef } from 'react';
 
-const Email = () => {
+const Foget = () => {
   const [verificationCodes, setVerificationCodes] = useState(['', '', '', '']);
   const [isVerified, setIsVerified] = useState(false);
   const [timer, setTimer] = useState(60);
@@ -90,4 +90,4 @@ const Email = () => {
   );
 };
 
-export default Email;
+export default Foget;
