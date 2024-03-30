@@ -26,4 +26,4 @@ const uploadImageAndUpdateURL = async (image) => {
 
 
 // Export the function
-module.exports = {generateRandomNumber,uploadImageAndUpdateURL,sendEmail};
+module.exports = {generateRandomNumber,uploadImageAndUpdateURL};
