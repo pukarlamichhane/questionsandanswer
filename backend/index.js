@@ -4,7 +4,6 @@ const connectDB = require('./db/connectDB');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const cors = require('cors'); // Import CORS middleware
 const useroutes = require('./routes/userRoutes');
 const productroutes = require('./routes/productRoutes');
 
@@ -12,8 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(cors()); // Allow all origins
+app.use(cookieParser()); // Allow all origins
 
 connectDB();
 

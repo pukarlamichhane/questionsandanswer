@@ -21,7 +21,7 @@ const login = (req, res) => {
     const token = jwt.sign({ username, role: user.role }, 'your_secret_key');
 
     // Store token in a cookie
-    res.cookie('token', token, { httpOnly: true });
+    res.cookie('token', token,role, { httpOnly: true });
 
     return res.json({ message: 'Login successful', token, role: user.role });
 };

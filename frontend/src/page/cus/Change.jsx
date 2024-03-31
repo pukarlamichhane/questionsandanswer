@@ -5,17 +5,19 @@ const Change = () => {
   const [password1, setPassword1] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showPassword1, setShowPassword1] = useState(false);
   const [errors, setErrors] = useState({});
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+  const togglePasswordVisibility1 = () => {
+    setShowPassword1(!showPassword1);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let errors = {};
-
-    // Email validation
 
     // Password validation
     if (!password.trim()) {
@@ -25,7 +27,9 @@ const Change = () => {
     }
 
     // Confirm password validation
-    if (password !== password1) {
+    if (!password1.trim()) {
+      errors.password1 = 'Please confirm your password';
+    } else if (password !== password1) {
       errors.password1 = 'Passwords do not match';
     }
 
@@ -36,8 +40,7 @@ const Change = () => {
     }
 
     // If no errors, proceed with form submission
-    console.log('Login Email:', password1);
-    console.log('Login Password:', password);
+    console.log('New Password:', password);
     setPassword1('');
     setPassword('');
     setErrors({});
@@ -46,54 +49,38 @@ const Change = () => {
   return (
     <div className='w-full min-h-screen flex justify-center items-center bg-gray-100'>
       <div className='max-w-md w-full px-4 border-2 border-gray-800 rounded bg-white'>
-        <h1 className='text-3xl font-bold text-center py-4 text-black'>Sign up</h1>
+        <h1 className='text-3xl font-bold text-center py-4 text-black'>Change Password</h1>
         <form className='mt-8 px-4 py-6' onSubmit={handleSubmit}>
           <div className='relative'>
             <input
               className='p-3 my-2 w-full bg-white rounded border border-gray-300 pr-10 text-black'
               type={showPassword ? 'text' : 'password'}
-              placeholder='Password'
-              autoComplete='current-password'
+              placeholder='New Password'
+              autoComplete='new-password'
               value={password}
-              onChange={(e) => setPassword1(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            {showPassword ? (
-              <FaEyeSlash
-                className='absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer'
-                onClick={togglePasswordVisibility}
-              />
-            ) : (
-              <FaEye
-                className='absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer'
-                onClick={togglePasswordVisibility}
-              />
-            )}
+            <span className='absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer' onClick={togglePasswordVisibility}>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
           </div>
           {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
           <div className='relative'>
             <input
               className='p-3 my-2 w-full bg-white rounded border border-gray-300 pr-10 text-black'
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword1 ? 'text' : 'password'}
               placeholder='Confirm Password'
-              autoComplete='current-password'
+              autoComplete='confirm-password'
               value={password1}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword1(e.target.value)}
             />
-            {showPassword ? (
-              <FaEyeSlash
-                className='absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer'
-                onClick={togglePasswordVisibility}
-              />
-            ) : (
-              <FaEye
-                className='absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer'
-                onClick={togglePasswordVisibility}
-              />
-            )}
+            <span className='absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer' onClick={togglePasswordVisibility1}>
+              {showPassword1 ? <FaEyeSlash /> : <FaEye />}
+            </span>
           </div>
           {errors.password1 && <p className="text-red-500 text-sm">{errors.password1}</p>}
           <button type='submit' className='bg-red-600 py-3 my-6 rounded w-full text-white font-bold'>
-            Change password
+            Change Password
           </button>
         </form>
       </div>
