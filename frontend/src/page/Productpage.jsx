@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import  { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Customer/Navbar';
 import { useDispatch } from 'react-redux';
 
 

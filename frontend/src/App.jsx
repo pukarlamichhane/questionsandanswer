@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 const Login = lazy(() => import('./page/Login'));
 const Signup = lazy(() => import('./page/Signup'));
 const Email = lazy(() => import('./page/Email'));
-// const Dashboard = lazy(() => import('./page/admin/Dashboard'));
+const Dashboard = lazy(() => import('./page/admin/Dashboard'));
 const Productpage = lazy(() => import('./page/Productpage'));
 const Forget = lazy(() => import('./page/cus/Foget'));
 const EmailForm = lazy(() => import('./page/cus/EmailForm'));
@@ -24,21 +24,13 @@ const AppRoutes = () => {
         <Route path="/verifycode" element={<Forget />} />
         <Route path="/forget" element={<EmailForm />} />
         <Route path="/password" element={<Password />} />
-        {/* <Route path="/admin/*" element={<AdminRoutes />} /> */}
+        <Route path="/admin/dashboard" element={<Dashboard />} />
       </Routes>
     </Suspense>
   );
 };
 
-// const AdminRoutes = () => {
-//   return (
-//     <Suspense fallback={<div>Loading...</div>}>
-//       <Route path="/dashboard" element={<Layout />}>
-//         <Route index element={<Dashboard />} />
-//       </Route>
-//     </Suspense>
-//   );
-// };
+
 
 // Main App Component
 const App = () => {
