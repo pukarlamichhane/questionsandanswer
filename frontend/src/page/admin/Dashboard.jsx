@@ -1,13 +1,23 @@
-import Sidebar from "../../components/admin/Sidebar";
 
+import Header from "../../components/admin/Header";
+// Corrected import
+import Dashome from "../../components/admin/Dashome";
+import Asidebar from "../../components/admin/Asidebar";
 
-const Dashboard = () => {
-    return (
-      <div>
-        <Sidebar></Sidebar>
-      </div>
-        
-    );
-  };
-  
-export default Dashboard;
+const Home = () => {
+  // const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+
+  // const OpenSidebar = () => {
+  //   setOpenSidebarToggle(!openSidebarToggle);
+  // };
+
+  return (
+    <div className="grid grid-cols-260px 1fr 1fr 1fr grid-rows-0.2fr 3fr h-screen">
+      <Header  />
+      <Asidebar></Asidebar>
+      <Dashome></Dashome>
+    </div>
+  );
+};
+
+export default Home;
