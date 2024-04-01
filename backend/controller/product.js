@@ -1,63 +1,68 @@
-const items = [
-  {
-    id: 1,
-    name: 'Item1',
-    category:"runnig shoes",
-    image:"",
-    variants: [
-      { size: 32, price: 10.99, quantity: 50 },
-      { size: 33, price: 12.99, quantity: 40 },
-      { size: 34, price: 15.99, quantity: 30 }
-    ]
-  }
-];
+const Product = require('../model/productmodel');
 
-// Get Product by ID
-const getProductById = (req, res) => {
-    const { id } = req.params;
-    const product = items.find(item => item.id === parseInt(id));
+// Get all products
+const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Get product by ID
+const getProductById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const product = await Product.findById(id);
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    return res.json(product);
-  };
-  
-  // Update Product by ID
-  const updateProductById = (req, res) => {
-    const { id } = req.params;
-    const { name, variants } = req.body;
-  
-    const productIndex = items.findIndex(item => item.id === parseInt(id));
-    if (productIndex === -1) {
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Update product by ID
+const updateProductById = async (req, res) => {
+  const { id } = req.params;
+  const { name, variants } = req.body;
+  try {
+    const product = await Product.findByIdAndUpdate(id, { name, variants });
+    if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-  
-    items[productIndex] = { id: parseInt(id), name, variants };
-  
-    return res.json({ message: 'Product updated successfully' });
-  };
-  
-  // Delete Product by ID
-  const deleteProductById = (req, res) => {
-    const { id } = req.params;
-    const productIndex = items.findIndex(item => item.id === parseInt(id));
-    if (productIndex === -1) {
+    res.json({ message: 'Product updated successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Delete product by ID
+const deleteProductById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const product = await Product.findByIdAndDelete(id);
+    if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    items.splice(productIndex, 1);
-    return res.json({ message: 'Product deleted successfully' });
-  };
-  
-  // Add Product
-  const addProduct = (req, res) => {
-    const { name, variants } = req.body;
-    const id = items.length + 1;
-    items.push({ id, name, variants });
-    return res.json({ message: 'Product added successfully', id });
-  };
-  
-  const getAllProducts = (req, res) => {
-    res.json(items);
-  };
-  module.exports = { getAllProducts, getProductById, updateProductById, deleteProductById, addProduct };
-  
+    res.json({ message: 'Product deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Add product
+const addProduct = async (req, res) => {
+  const { name, variants } = req.body;
+  try {
+    const product = new Product({ name, variants });
+    await product.save();
+    res.json({ message: 'Product added successfully', id: product._id });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getAllProducts, getProductById, updateProductById, deleteProductById, addProduct };
