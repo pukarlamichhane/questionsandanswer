@@ -1,6 +1,5 @@
 import Category from "./Category"
 import Colors from "./Colors"
-import Price from "./Price"
 
 
 const Sidebar = () => {
@@ -11,7 +10,6 @@ const Sidebar = () => {
           <h1 className="mt-5 ">Sneakers store</h1>
         </div>
         <Category />
-        <Price/>
         <Colors/>
       </section>
     </div>

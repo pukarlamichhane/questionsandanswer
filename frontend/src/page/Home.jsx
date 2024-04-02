@@ -4,7 +4,7 @@ import Sidebar from '../components/Customer/Sidebar';
 
 const Home = () => {
   return (
-    <div>
+    <div className='p-0 m-0 box-border font-sans'>
       <Sidebar></Sidebar>
       <Navbar></Navbar>
       <Recomendation></Recomendation>

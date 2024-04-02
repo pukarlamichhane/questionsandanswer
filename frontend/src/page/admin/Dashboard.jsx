@@ -4,8 +4,7 @@ import Asidebar from '../../components/admin/Asidebar'
 import Dashome from '../../components/admin/Dashome'
 
 
-function App() {
-
+function Dashboard() {
 
   return (
     <div className='grid-container'>
@@ -16,4 +15,4 @@ function App() {
   )
 }
 
-export default App
+export default Dashboard
