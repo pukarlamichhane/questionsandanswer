@@ -55,15 +55,16 @@ const deleteProductById = async (req, res) => {
 
 // Add product
 const addProduct = async (req, res) => {
-  const { name, variants } = req.body;
-  try {
-    const product = new Product({ name, variants });
-    product.image
-    await product.save();
-    res.json({ message: 'Product added successfully', id: product._id });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+  const { name,image,category, variants } = req.body;
+  // try {
+  //   const product = new Product({ name, variants });
+    
+  //   await product.save();
+  //   res.json({ message: 'Product added successfully', id: product._id });
+  // } catch (error) {
+  //   res.status(500).json({ message: error.message });
+  // }
+  
 };
 
 module.exports = { getAllProducts, getProductById, updateProductById, deleteProductById, addProduct };

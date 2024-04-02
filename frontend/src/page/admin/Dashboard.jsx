@@ -1,23 +1,19 @@
 
-import Header from "../../components/admin/Header";
-// Corrected import
-import Dashome from "../../components/admin/Dashome";
-import Asidebar from "../../components/admin/Asidebar";
+import Header from '../../components/admin/Header'
+import Asidebar from '../../components/admin/Asidebar'
+import Dashome from '../../components/admin/Dashome'
 
-const Home = () => {
-  // const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
-  // const OpenSidebar = () => {
-  //   setOpenSidebarToggle(!openSidebarToggle);
-  // };
+function App() {
+
 
   return (
-    <div className="grid grid-cols-260px 1fr 1fr 1fr grid-rows-0.2fr 3fr h-screen">
-      <Header  />
-      <Asidebar></Asidebar>
-      <Dashome></Dashome>
+    <div className='grid-container'>
+      <Header />
+      <Asidebar />
+      <Dashome />
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default App
