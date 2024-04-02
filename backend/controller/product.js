@@ -58,6 +58,7 @@ const addProduct = async (req, res) => {
   const { name, variants } = req.body;
   try {
     const product = new Product({ name, variants });
+    product.image
     await product.save();
     res.json({ message: 'Product added successfully', id: product._id });
   } catch (error) {

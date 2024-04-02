@@ -2,9 +2,8 @@ import { FaShoppingCart } from "react-icons/fa";
 
 const Navbar = () => {
   return (
-    <nav className="bg-white p-4 border-solid border-1 border-black shadow-lg">
+    <nav className="bg-white p-4 border-solid border-1 border-black ">
       <div className="container mx-auto flex items-center justify-between">
-        <div className="text-black font-bold text-xl">E-Commerce Store</div>
 
         {/* Search Input */}
         <input className="px-4 py-3 bg-gray-100 rounded-lg focus:outline-none w-96 sm:w-auto" // Adjust width here

@@ -4,7 +4,7 @@ import Order from './page/admin/Order';
 import Payment from './page/cus/Payment';
 
 // Lazy-loaded components
-const Home = lazy(() => import('./page/Home/Home'));
+const Home = lazy(() => import('./page/Home'));
 const Login = lazy(() => import('./page/Login'));
 const Signup = lazy(() => import('./page/Signup'));
 const Email = lazy(() => import('./page/Email'));
