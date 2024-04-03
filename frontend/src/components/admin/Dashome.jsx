@@ -1,5 +1,6 @@
 import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill } from 'react-icons/bs';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line } from 'recharts';
+import Asidebar from './Asidebar';
 
 function Dashome() {
 
@@ -15,35 +16,36 @@ function Dashome() {
 
     return (
         <main className='w-full h-screen bg-white-900'>
+            <Asidebar></Asidebar>
             <div className='ml-60 p-6'>
-                <div className='main-title m-5'>
+                <div className='m-2'>
                     <h3 className='text-2xl font-semibold'>DASHBOARD</h3>
                 </div>
 
-                <div className='main-cards grid grid-cols-4 gap-6'>
-                    <div className='card bg-blue-600 text-white rounded p-4'>
-                        <div className='card-inner flex justify-between items-center'>
+                <div className=' grid grid-cols-4 gap-6'>
+                    <div className=' bg-blue-600 text-white rounded p-4'>
+                        <div className=' flex justify-between items-center'>
                             <h3>PRODUCTS</h3>
                             <BsFillArchiveFill className='card_icon' />
                         </div>
                         <h1 className='text-4xl'>300</h1>
                     </div>
-                    <div className='card bg-blue-600 text-white rounded p-4'>
-                        <div className='card-inner flex justify-between items-center'>
+                    <div className=' bg-blue-600 text-white rounded p-4'>
+                        <div className=' flex justify-between items-center'>
                             <h3>CATEGORIES</h3>
                             <BsFillGrid3X3GapFill className='card_icon' />
                         </div>
                         <h1 className='text-4xl'>12</h1>
                     </div>
-                    <div className='card bg-blue-600 text-white rounded p-4'>
-                        <div className='card-inner flex justify-between items-center'>
+                    <div className=' bg-blue-600 text-white rounded p-4'>
+                        <div className=' flex justify-between items-center'>
                             <h3>CUSTOMERS</h3>
                             <BsPeopleFill className='card_icon' />
                         </div>
                         <h1 className='text-4xl'>33</h1>
                     </div>
-                    <div className='card bg-blue-600 text-white rounded p-4'>
-                        <div className='card-inner flex justify-between items-center'>
+                    <div className=' bg-blue-600 text-white rounded p-4'>
+                        <div className=' flex justify-between items-center'>
                             <h3>ALERTS</h3>
                             <BsFillBellFill className='card_icon' />
                         </div>
@@ -51,7 +53,7 @@ function Dashome() {
                     </div>
                 </div>
 
-                <div className='charts grid grid-cols-2 gap-6 mt-6'>
+                <div className='grid grid-cols-2 gap-6 mt-6'>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart
                             data={data}

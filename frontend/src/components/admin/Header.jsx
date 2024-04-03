@@ -1,18 +1,15 @@
-import { BsFillBellFill, BsFillEnvelopeFill, BsPersonCircle, BsSearch, BsJustify } from 'react-icons/bs';
+import { BsCart3 } from 'react-icons/bs';
+
 
 function Header() {
   return (
-    <header className='header bg-gray-800 text-white px-6 py-4 flex justify-between items-center'>
-        <div className='menu-icon'>
-            <BsJustify className='icon' />
+    <header className=' bg-white-800 text-black px-6 py-4 flex justify-between items-center border-b border-gray-300'>
+        <div className=' flex items-center'>
+        <BsCart3 className=' text-xl'/> 
+        <span className="ml-2 font-semibold">SHOP</span>
         </div>
-        <div className='header-left'>
-            <BsSearch className='icon' />
-        </div>
-        <div className='header-right flex'>
-            <BsFillBellFill className='icon mr-4' />
-            <BsFillEnvelopeFill className='icon mr-4' />
-            <BsPersonCircle className='icon' />
+        <div className='right flex justify-end items-center'>
+            <span className="text-black-400">pukarlamichhane567@gmail.com</span>
         </div>
     </header>
   );
