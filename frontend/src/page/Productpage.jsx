@@ -16,6 +16,9 @@ const Productpage = () => {
     {
       id: 1,
       name: 'Item1',
+      image :"",
+      color :"",
+      catergory:"",
       variants: [
         { size: 32, price: 10.99, quantity: 50 },
         { size: 33, price: 12.99, quantity: 40 },
