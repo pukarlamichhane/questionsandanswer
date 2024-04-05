@@ -23,31 +23,31 @@ function Asidebar() {
           <li className='sidebar-list-item py-4 px-6 hover:bg-blue-800 hover:text-white'>
               <Link to="/products" className="flex items-center">
                   <BsFillArchiveFill className='icon'/>
-                  <span className="ml-2">Products</span>
+                  <span className="ml-2">View user</span>
               </Link>
           </li>
           <li className='sidebar-list-item py-4 px-6 hover:bg-blue-800 hover:text-white'>
               <Link to="/categories" className="flex items-center">
                   <BsFillGrid3X3GapFill className='icon'/>
-                  <span className="ml-2">Categories</span>
+                  <span className="ml-2">Add user</span>
               </Link>
           </li>
           <li className='sidebar-list-item py-4 px-6 hover:bg-blue-800 hover:text-white'>
               <Link to="/customers" className="flex items-center">
                   <BsPeopleFill className='icon'/>
-                  <span className="ml-2">Customers</span>
+                  <span className="ml-2">Add Product</span>
               </Link>
           </li>
           <li className='sidebar-list-item py-4 px-6 hover:bg-blue-800 hover:text-white'>
               <Link to="/inventory" className="flex items-center">
                   <BsListCheck className='icon'/>
-                  <span className="ml-2">Inventory</span>
+                  <span className="ml-2">View Product</span>
               </Link>
           </li>
           <li className='sidebar-list-item py-4 px-6 hover:bg-blue-800 hover:text-white'>
               <Link to="/reports" className="flex items-center">
                   <BsMenuButtonWideFill className='icon'/>
-                  <span className="ml-2">Reports</span>
+                  <span className="ml-2">Order</span>
               </Link>
           </li>
           <li className='sidebar-list-item py-4 px-6 hover:bg-blue-800 hover:text-white'>

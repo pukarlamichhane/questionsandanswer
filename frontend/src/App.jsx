@@ -41,6 +41,7 @@ const AppRoutes = () => {
         <Route path="/admin/adduser" element={<Adduser />} />
         <Route path="/admin/users" element={<User />} />
         <Route path="/admin/order" element={<Order />} />
+        <Route path="/admin/viewuser" element={<User></User>} />
       </Routes>
     </Suspense>
   );

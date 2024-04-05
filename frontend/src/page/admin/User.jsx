@@ -1,5 +1,6 @@
 import Header from "../../components/admin/Header";
-import Asidebar from "../../components/admin/Asidebar";
+import Vuser from "../../components/admin/Vuser";
+
 
 const User = () => {
   // const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -11,8 +12,7 @@ const User = () => {
   return (
     <div className="grid grid-cols-260px 1fr 1fr 1fr grid-rows-0.2fr 3fr h-screen">
       <Header  />
-      <Asidebar></Asidebar>
-      User
+      <Vuser></Vuser>
     </div>
   );
 };
