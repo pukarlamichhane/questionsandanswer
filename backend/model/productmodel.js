@@ -11,6 +11,7 @@ const productSchema = new Schema({
   name: String,
   category: String,
   image: String,
+  color:String,
   variants: [variantSchema]
 });
 
