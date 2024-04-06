@@ -1,5 +1,5 @@
 const Product = require('../model/productmodel');
-
+const uploadImageAndUpdateURL =require("../helpers/utils")
 // Get all products
 const getAllProducts = async (req, res) => {
   try {
@@ -27,9 +27,10 @@ const getProductById = async (req, res) => {
 // Update product by ID
 const updateProductById = async (req, res) => {
   const { id } = req.params;
-  const { name, variants } = req.body;
+  const { name,color,image,category, variants } = req.body;
+  images=uploadImageAndUpdateURL(image)
   try {
-    const product = await Product.findByIdAndUpdate(id, { name, variants });
+    const product = await Product.findByIdAndUpdate(id, { name,color,images,category,variants });
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
@@ -55,15 +56,17 @@ const deleteProductById = async (req, res) => {
 
 // Add product
 const addProduct = async (req, res) => {
-  const { name,image,category, variants } = req.body;
-  // try {
-  //   const product = new Product({ name, variants });
+  const { name,image,category,color, variants } = req.body;
+  images=uploadImageAndUpdateURL(image)
+  
+  try {
+    const product = new Product({ name,images,category,color, variants });
     
-  //   await product.save();
-  //   res.json({ message: 'Product added successfully', id: product._id });
-  // } catch (error) {
-  //   res.status(500).json({ message: error.message });
-  // }
+    await product.save();
+    res.json({ message: 'Product added successfully', id: product._id });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
   
 };
 

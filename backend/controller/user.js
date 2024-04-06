@@ -1,67 +1,86 @@
-// In-memory user data for demonstration purposes
 const jwt = require('jsonwebtoken');
+const User = require('./userModel');
 
-
-let users = [
-  { username: 'admin', password: 'admin_password', role: 'admin' },
-  { username: 'user', password: 'user_password', role: 'user' }
-];
-
-const login = (req, res) => {
+const login = async (req, res) => {
     const { username, password } = req.body;
 
-    // Check if the user exists
-    const user = users.find(u => u.username === username && u.password === password);
+    try {
+        // Check if the user exists in the database
+        const user = await User.findOne({ username, password });
 
-    if (!user) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        // Create a JWT token with user information and role
+        const token = jwt.sign({ username: user.username, role: user.role }, 'your_secret_key');
+
+        // Send token in response
+        return res.json({ message: 'Login successful', token, role: user.role });
+    } catch (error) {
+        console.error('Error during login:', error);
+        return res.status(500).json({ message: 'Internal server error' });
     }
-
-    // Create a JWT token with user information and role
-    const token = jwt.sign({ username, role: user.role }, 'your_secret_key');
-
-    // Store token in a cookie
-    res.cookie('token', token,role, { httpOnly: true });
-
-    return res.json({ message: 'Login successful', token, role: user.role });
 };
 
-// Add User function
-const addUser = (req, res) => {
-    const newUser = req.body;
-    users.push(newUser);
-    return res.json({ message: 'User added successfully' });
+const addUser = async (req, res) => {
+    const {email,password,usertype} = req.body;
+
+    try {
+        // Create new user in the database
+        await User.create(email,password,usertype);
+        return res.json({ message: 'User added successfully' });
+    } catch (error) {
+        console.error('Error adding user:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
 };
 
-// Update User function
-const updateUser = (req, res) => {
-    const { username } = req.params;
+const updateUser = async (req, res) => {
+    const { id } = req.params; // Assuming the id is used for identifying the user to update
     const updatedUser = req.body;
-    users = users.map(user => (user.username === username ? { ...user, ...updatedUser } : user));
-    return res.json({ message: 'User updated successfully' });
+
+    try {
+        // Update user in the database
+        await User.findByIdAndUpdate(id, updatedUser);
+        return res.json({ message: 'User updated successfully' });
+    } catch (error) {
+        console.error('Error updating user:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
 };
 
-// Signup User function
-const signupUser = (req, res) => {
+const signupUser = async (req, res) => {
     const { username, password, role } = req.body;
 
-    // Check if username already exists
-    const existingUser = users.find(user => user.username === username);
-    if (existingUser) {
-        return res.status(400).json({ message: 'Username already exists' });
+    try {
+        // Check if username already exists
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Username already exists' });
+        }
+
+        // Add the new user to the database
+        await User.create({ username, password, role });
+
+        return res.json({ message: 'User registered successfully' });
+    } catch (error) {
+        console.error('Error during signup:', error);
+        return res.status(500).json({ message: 'Internal server error' });
     }
-
-    // Add the new user to the list
-    users.push({ username, password, role });
-
-    return res.json({ message: 'User registered successfully' });
 };
 
-// Delete User function
-const deleteUser = (req, res) => {
-    const { username } = req.params;
-    users = users.filter(user => user.username !== username);
-    return res.json({ message: 'User deleted successfully' });
+const deleteUser = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // Delete user from the database
+        await User.findByIdAndDelete(id);
+        return res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
 };
 
 module.exports = { login, addUser, updateUser, signupUser, deleteUser };
