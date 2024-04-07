@@ -1,7 +1,5 @@
-import  { Suspense, lazy } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Order from './page/admin/Order';
-import Payment from './page/cus/Payment';
 
 // Lazy-loaded components
 const Home = lazy(() => import('./page/Home'));
@@ -10,7 +8,7 @@ const Signup = lazy(() => import('./page/Signup'));
 const Email = lazy(() => import('./page/Email'));
 const Dashboard = lazy(() => import('./page/admin/Dashboard'));
 const Productpage = lazy(() => import('./page/Productpage'));
-const Forget = lazy(() => import('./page/cus/Foget'));
+const Forget = lazy(() => import('./page/cus/Forget'));
 const EmailForm = lazy(() => import('./page/cus/EmailForm'));
 const Password = lazy(() => import('./page/cus/Change'));
 const AdminProduct = lazy(() => import('./page/admin/Product'));
@@ -18,6 +16,8 @@ const Setting = lazy(() => import('./page/admin/Setting'));
 const Addproduct = lazy(() => import('./page/admin/Add'));
 const Adduser = lazy(() => import('./page/admin/Adduser'));
 const User = lazy(() => import('./page/admin/User'));
+const Order = lazy(() => import('./page/admin/Order'));
+const Payment = lazy(() => import('./page/cus/Payment'));
 
 // Define routes
 const AppRoutes = () => {
@@ -33,7 +33,7 @@ const AppRoutes = () => {
         <Route path="/verifycode" element={<Forget />} />
         <Route path="/forget" element={<EmailForm />} />
         <Route path="/password" element={<Password />} />
-        <Route path="/password" element={<Payment />} />
+        <Route path="/payment" element={<Payment />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/products" element={<AdminProduct />} />
         <Route path="/admin/setting" element={<Setting />} />
@@ -41,7 +41,8 @@ const AppRoutes = () => {
         <Route path="/admin/adduser" element={<Adduser />} />
         <Route path="/admin/users" element={<User />} />
         <Route path="/admin/order" element={<Order />} />
-        <Route path="/admin/viewuser" element={<User></User>} />
+        {/* You have two identical routes. If you need a separate route, specify a different path */}
+        <Route path="/admin/viewuser" element={<User />} />
       </Routes>
     </Suspense>
   );
