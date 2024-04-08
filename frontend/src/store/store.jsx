@@ -1,9 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit' 
-import cartSlice from './cartSlice'
+import { configureStore } from '@reduxjs/toolkit'; 
+import cartReducer from './cartSlice'; // Importing without curly braces
 
 export const store = configureStore({
   reducer: {
-    cart : cartSlice
+    cart: cartReducer // Using the imported reducer
   },
-  devTools : true
-})
+  devTools: true
+});

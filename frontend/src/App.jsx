@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import  { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 // Lazy-loaded components
@@ -41,7 +41,6 @@ const AppRoutes = () => {
         <Route path="/admin/adduser" element={<Adduser />} />
         <Route path="/admin/users" element={<User />} />
         <Route path="/admin/order" element={<Order />} />
-        {/* You have two identical routes. If you need a separate route, specify a different path */}
         <Route path="/admin/viewuser" element={<User />} />
       </Routes>
     </Suspense>
