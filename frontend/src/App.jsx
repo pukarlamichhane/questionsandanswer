@@ -8,7 +8,7 @@ const Signup = lazy(() => import('./page/Signup'));
 const Email = lazy(() => import('./page/Email'));
 const Dashboard = lazy(() => import('./page/admin/Dashboard'));
 const Productpage = lazy(() => import('./page/Productpage'));
-const Forget = lazy(() => import('./page/cus/Forget'));
+// const Forget = lazy(() => import('./page/cus/Forget'));
 const EmailForm = lazy(() => import('./page/cus/EmailForm'));
 const Password = lazy(() => import('./page/cus/Change'));
 const AdminProduct = lazy(() => import('./page/admin/Product'));
@@ -30,7 +30,7 @@ const AppRoutes = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify" element={<Email />} />
         <Route path="/productpage" element={<Productpage />} />
-        <Route path="/verifycode" element={<Forget />} />
+        {/* <Route path="/verifycode" element={<Forget />} /> */}
         <Route path="/forget" element={<EmailForm />} />
         <Route path="/password" element={<Password />} />
         <Route path="/payment" element={<Payment />} />

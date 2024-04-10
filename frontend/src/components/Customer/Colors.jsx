@@ -1,6 +1,6 @@
 import Input from "./Input";
 
-function Category() {
+function Colors() {
   return (
     <div>
       <h2 className="text-2xl font-normal mb-5">Category</h2>
@@ -11,24 +11,24 @@ function Category() {
           <span className="ml-6 w-5 h-5  mr-2">All</span>
         </label>
         <Input
-          value="sneakers"
-          title="Sneakers"
+          value="Green"
+          title="Green"
           name="test"
         />
         <Input
-          value="flats"
-          title="Flats"
+          value="Black"
+          title="Black"
           name="test"
         />
         <Input
-          value="sandals"
-          title="Sandals"
+          value="White"
+          title="White"
           name="test"
         />
         <Input
 
-          value="heels"
-          title="Heels"
+          value="Blue"
+          title="Blue"
           name="test"
         />
       </div>
@@ -36,4 +36,4 @@ function Category() {
   );
 }
 
-export default Category;
+export default Colors;
