@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 const cloudinary = require("cloudinary");
-import "dotenv/config";
+require("dotenv/config");
 const Recipient = require("mailersend").Recipient;
 const EmailParams = require("mailersend").EmailParams;
 const MailerSend = require("mailersend");
@@ -24,32 +24,32 @@ const uploadImageAndUpdateURL = async (image) => {
   }
 };
 
-const mailerSend = new MailerSend({
-  apiKey: process.env.API_KEY,
-});
+// const mailerSend = new MailerSend({
+//   apiKey: process.env.API_KEY,
+// });
 
-const sentFrom = new Sender(
-  "trial-3zxk54vn7rpljy6v.mlsender.net",
-  "Sneakerhouse"
-);
+// const sentFrom = new Sender(
+//   "trial-3zxk54vn7rpljy6v.mlsender.net",
+//   "Sneakerhouse"
+// );
 
-async function sendEmail(recipientEmail, emailSubject, emailHtml, emailText) {
-  const recipients = [new Recipient(recipientEmail)];
+// async function sendEmail(recipientEmail, emailSubject, emailHtml, emailText) {
+//   const recipients = [new Recipient(recipientEmail)];
 
-  const emailParams = new EmailParams()
-    .setFrom("pukarlamichhane567@gmail.com")
-    .setTo(recipients)
-    .setReplyTo(sentFrom)
-    .setSubject(emailSubject)
-    .setText(emailText);
+//   const emailParams = new EmailParams()
+//     .setFrom("pukarlamichhane567@gmail.com")
+//     .setTo(recipients)
+//     .setReplyTo(sentFrom)
+//     .setSubject(emailSubject)
+//     .setText(emailText);
 
-  try {
-    await mailerSend.email.send(emailParams);
-    console.log("Email sent successfully!");
-  } catch (error) {
-    console.error("Error sending email:", error);
-  }
-}
+//   try {
+//     await mailerSend.email.send(emailParams);
+//     console.log("Email sent successfully!");
+//   } catch (error) {
+//     console.error("Error sending email:", error);
+//   }
+// }
 
 // Export the function
-module.exports = { generateRandomNumber, uploadImageAndUpdateURL, sendEmail };
+module.exports = { generateRandomNumber, uploadImageAndUpdateURL };

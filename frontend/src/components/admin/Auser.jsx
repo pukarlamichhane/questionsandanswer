@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import  { useState } from 'react';
 import Asidebar from './Asidebar';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import axios from 'axios';
 
 function Auser() {
-    const [username, setUsername] = useState('');
+    const [email, setemail] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('user');
     const [showPassword, setShowPassword] = useState(false);
 
     const handleUsernameChange = (event) => {
-        setUsername(event.target.value);
+        setemail(event.target.value);
     };
 
     const handlePasswordChange = (event) => {
@@ -20,9 +21,15 @@ function Auser() {
         setRole(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log({ username, password, role });
+
+        try {
+            const response = await axios.post('http://localhost:8000/api/user/adduser', { email, password, role });
+            console.log(response.data); // Handle the response from the server
+        } catch (error) {
+            console.error(error); // Handle the error
+        }
     };
 
     const togglePasswordVisibility = () => {
@@ -41,7 +48,7 @@ function Auser() {
                             <input
                                 type="email"
                                 id="username"
-                                value={username}
+                                value={email}
                                 onChange={handleUsernameChange}
                                 className="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
                                 placeholder="Enter username"

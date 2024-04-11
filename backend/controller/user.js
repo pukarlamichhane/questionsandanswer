@@ -31,7 +31,7 @@ const addUser = async (req, res) => {
 
   try {
     // Create new user in the database
-    await User.create(email, password, usertype);
+    await User.create({ email, password, role: usertype });
     return res.json({ message: "User added successfully" });
   } catch (error) {
     console.error("Error adding user:", error);
