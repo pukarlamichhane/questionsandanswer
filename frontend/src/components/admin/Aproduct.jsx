@@ -52,9 +52,9 @@ const Aproduct = () => {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="itemImage" className="block font-semibold mb-2">Item Image URL:</label>
+              <label htmlFor="itemImage" className="block font-semibold mb-2">Item Image</label>
               <input
-                type="text"
+                type="file"
                 id="itemImage"
                 value={itemImage}
                 onChange={(e) => setItemImage(e.target.value)}
