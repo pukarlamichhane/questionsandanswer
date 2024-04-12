@@ -28,6 +28,7 @@ const login = async (req, res) => {
 
 const addUser = async (req, res) => {
   const { email, password, usertype } = req.body;
+  const hash = await bcrypt.hash(password, 10);
 
   try {
     // Create new user in the database
