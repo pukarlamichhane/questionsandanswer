@@ -32,7 +32,7 @@ const addUser = async (req, res) => {
 
   try {
     // Create new user in the database
-    await User.create({ email, password, role: usertype });
+    await User.create({ email, hash, role: usertype });
     return res.json({ message: "User added successfully" });
   } catch (error) {
     console.error("Error adding user:", error);
@@ -55,17 +55,17 @@ const updateUser = async (req, res) => {
 };
 
 const signupUser = async (req, res) => {
-  const { username, password, role } = req.body;
-
+  const { email, password } = req.body;
+  const hash = await bcrypt.hash(password, 10);
   try {
     // Check if username already exists
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Username already exists" });
     }
 
     // Add the new user to the database
-    await User.create({ username, password, role });
+    await User.create({ email, hash });
 
     return res.json({ message: "User registered successfully" });
   } catch (error) {
