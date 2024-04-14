@@ -1,4 +1,4 @@
-import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill } from 'react-icons/bs';
+import { BsFillArchiveFill, BsPeopleFill } from 'react-icons/bs';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line } from 'recharts';
 import Asidebar from './Asidebar';
 
@@ -32,25 +32,12 @@ function Dashome() {
                     </div>
                     <div className=' bg-blue-600 text-white rounded p-4'>
                         <div className=' flex justify-between items-center'>
-                            <h3>CATEGORIES</h3>
-                            <BsFillGrid3X3GapFill className='card_icon' />
-                        </div>
-                        <h1 className='text-4xl'>12</h1>
-                    </div>
-                    <div className=' bg-blue-600 text-white rounded p-4'>
-                        <div className=' flex justify-between items-center'>
                             <h3>CUSTOMERS</h3>
                             <BsPeopleFill className='card_icon' />
                         </div>
                         <h1 className='text-4xl'>33</h1>
                     </div>
-                    <div className=' bg-blue-600 text-white rounded p-4'>
-                        <div className=' flex justify-between items-center'>
-                            <h3>ALERTS</h3>
-                            <BsFillBellFill className='card_icon' />
-                        </div>
-                        <h1 className='text-4xl'>42</h1>
-                    </div>
+
                 </div>
 
                 <div className='grid grid-cols-2 gap-6 mt-6'>

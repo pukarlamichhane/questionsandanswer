@@ -1,5 +1,8 @@
 import { useState } from "react";
 import Asidebar from "./Asidebar";
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Aproduct = () => {
   const [itemName, setItemName] = useState("");
@@ -18,7 +21,7 @@ const Aproduct = () => {
     setVariants([...variants, { size: "", price: "", quantity: "" }]);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const newItem = {
@@ -29,8 +32,21 @@ const Aproduct = () => {
       variants: variants,
     };
 
-    console.log(newItem); // Log the new item object
-    console.log(variants);
+    try {
+      const response = await axios.post('http://localhost:8000/api/products', newItem);
+      console.log(response.data); // Log the response from the server
+      toast.success('Product added successfully!');
+      // Reset form fields if needed
+      setItemName("");
+      setItemImage("");
+      setItemColor("");
+      setItemCategory("");
+      setVariants([{ size: "", price: "", quantity: "" }]);
+    } catch (error) {
+      console.error('Error adding product:', error);
+      toast.error('Failed to add product.');
+      // Handle error if needed
+    }
   };
 
   return (
@@ -56,8 +72,7 @@ const Aproduct = () => {
               <input
                 type="file"
                 id="itemImage"
-                value={itemImage}
-                onChange={(e) => setItemImage(e.target.value)}
+                onChange={(e) => setItemImage(e.target.files[0])}
                 required
                 className="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
               />
@@ -141,6 +156,7 @@ const Aproduct = () => {
           </form>
         </div>
       </div>
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </main>
   );
 };
