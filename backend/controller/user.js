@@ -1,20 +1,28 @@
 const jwt = require("jsonwebtoken");
 const User = require("../model/usermodel");
+const bcrypt = require("bcrypt");
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
     // Check if the user exists in the database
-    const user = await User.findOne({ username, password });
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
+    // Compare the provided password with the hashed password in the database
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
     // Create a JWT token with user information and role
     const token = jwt.sign(
-      { username: user.username, role: user.role },
+      { email: user.email, role: user.role },
       "your_secret_key"
     );
 
@@ -32,7 +40,7 @@ const addUser = async (req, res) => {
 
   try {
     // Create new user in the database
-    await User.create({ email, hash, role: usertype });
+    await User.create({ email, password: hash, role: usertype });
     return res.json({ message: "User added successfully" });
   } catch (error) {
     console.error("Error adding user:", error);
@@ -65,7 +73,7 @@ const signupUser = async (req, res) => {
     }
 
     // Add the new user to the database
-    await User.create({ email, hash });
+    await User.create({ email, password: hash });
 
     return res.json({ message: "User registered successfully" });
   } catch (error) {

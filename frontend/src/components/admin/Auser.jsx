@@ -1,7 +1,9 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import Asidebar from './Asidebar';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Auser() {
     const [email, setemail] = useState('');
@@ -27,8 +29,10 @@ function Auser() {
         try {
             const response = await axios.post('http://localhost:8000/api/user/adduser', { email, password, role });
             console.log(response.data); // Handle the response from the server
+            toast.success('User added successfully!');
         } catch (error) {
             console.error(error); // Handle the error
+            toast.error('Failed to add user.');
         }
     };
 
@@ -99,6 +103,7 @@ function Auser() {
                     </form>
                 </div>
             </div>
+            <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
         </main>
     );
 }
