@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Change = () => {
   const [password1, setPassword1] = useState('');
@@ -15,7 +18,7 @@ const Change = () => {
     setShowPassword1(!showPassword1);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let errors = {};
 
@@ -39,11 +42,33 @@ const Change = () => {
       return;
     }
 
-    // If no errors, proceed with form submission
-    console.log('New Password:', password);
-    setPassword1('');
-    setPassword('');
-    setErrors({});
+    try {
+      // If no errors, proceed with form submission
+      const response = await axios.post('your_backend_endpoint_here', {
+        newPassword: password
+      });
+
+      console.log('Password changed successfully:', response.data);
+
+      // Show success message
+      toast.success('Password changed successfully', {
+        position: toast.POSITION.TOP_CENTER
+      });
+
+      // Clear form fields and errors after successful password change
+      setPassword1('');
+      setPassword('');
+      setErrors({});
+    } catch (error) {
+      console.error('Password change error:', error.response.data);
+
+      // Show error message
+      toast.error('Failed to change password. Please try again.', {
+        position: toast.POSITION.TOP_CENTER
+      });
+
+      // Handle password change errors here, if needed
+    }
   };
 
   return (
@@ -83,6 +108,7 @@ const Change = () => {
             Change Password
           </button>
         </form>
+        <ToastContainer />
       </div>
     </div>
   );

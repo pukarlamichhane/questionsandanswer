@@ -1,6 +1,7 @@
-import  { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 
-const Foget = () => {
+const Forget = () => {
   const [verificationCodes, setVerificationCodes] = useState(['', '', '', '']);
   const [isVerified, setIsVerified] = useState(false);
   const [timer, setTimer] = useState(60);
@@ -22,14 +23,25 @@ const Foget = () => {
     setIsVerified(true);
   };
 
-  const handleResend = () => {
-    setTimer(60);
-    setIsVerified(false);
-    setIsResendActive(false);
-    // Reset all input fields
-    setVerificationCodes(['', '', '', '']);
-    // Focus on the first input field
-    inputRefs.current[0].focus();
+  const handleResend = async () => {
+    try {
+      // Make an Axios POST request to your backend endpoint
+      const response = await axios.post('your_backend_endpoint_here', {
+        verificationCodes
+      });
+      console.log('Resend successful:', response.data);
+
+      setTimer(60);
+      setIsVerified(false);
+      setIsResendActive(false);
+      // Reset all input fields
+      setVerificationCodes(['', '', '', '']);
+      // Focus on the first input field
+      inputRefs.current[0].focus();
+    } catch (error) {
+      console.error('Resend error:', error.response.data);
+      // Handle resend errors here, if needed
+    }
   };
 
   const handleChange = (e, index) => {
@@ -90,4 +102,4 @@ const Foget = () => {
   );
 };
 
-export default Foget;
+export default Forget;

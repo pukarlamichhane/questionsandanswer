@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 const EmailForm = () => {
   const [email, setEmail] = useState('');
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let errors = {};
 
@@ -21,10 +22,21 @@ const EmailForm = () => {
       return;
     }
 
-    // If no errors, proceed with form submission
-    console.log('Login Email:', email);
-    setEmail('');
-    setErrors({});
+    try {
+      // If no errors, proceed with form submission
+      const response = await axios.post('your_backend_endpoint_here', {
+        email
+      });
+
+      console.log('Email sent successfully:', response.data);
+
+      // Clear form fields and errors after successful email sending
+      setEmail('');
+      setErrors({});
+    } catch (error) {
+      console.error('Email sending error:', error.response.data);
+      // Handle email sending errors here, if needed
+    }
   };
 
   return (
