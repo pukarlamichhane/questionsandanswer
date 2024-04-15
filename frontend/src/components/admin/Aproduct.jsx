@@ -23,17 +23,8 @@ const Aproduct = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const newItem = {
-      name: itemName,
-      image: itemImage,
-      color: itemColor,
-      category: itemCategory,
-      variants: variants,
-    };
-
     try {
-      const response = await axios.post('http://localhost:8000/api/products', newItem);
+      const response = await axios.post('http://localhost:8000/api/products', {itemName,itemImage,itemColor,itemCategory,variants});
       console.log(response.data); // Log the response from the server
       toast.success('Product added successfully!');
       // Reset form fields if needed

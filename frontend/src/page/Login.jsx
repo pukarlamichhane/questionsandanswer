@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import axios from 'axios'; // Import Axios
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -12,7 +13,7 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let errors = {};
 
@@ -36,12 +37,23 @@ const Login = () => {
       return;
     }
 
-    // If no errors, proceed with form submission
-    console.log('Login Email:', email);
-    console.log('Login Password:', password);
-    setEmail('');
-    setPassword('');
-    setErrors({});
+    try {
+      // If no errors, proceed with form submission
+      const response = await axios.post('your_backend_endpoint_here', {
+        email,
+        password
+      });
+
+      console.log('Login successful:', response.data);
+
+      // Clear form fields and errors after successful login
+      setEmail('');
+      setPassword('');
+      setErrors({});
+    } catch (error) {
+      console.error('Login error:', error.response.data);
+      // Handle login errors here, if needed
+    }
   };
 
   return (

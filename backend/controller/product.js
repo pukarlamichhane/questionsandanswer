@@ -1,5 +1,5 @@
-const Product = require('../model/productmodel');
-const uploadImageAndUpdateURL =require("../helpers/utils")
+const Product = require("../model/productmodel");
+const uploadImageAndUpdateURL = require("../helpers/utils");
 // Get all products
 const getAllProducts = async (req, res) => {
   try {
@@ -16,7 +16,7 @@ const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(id);
     if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ message: "Product not found" });
     }
     res.json(product);
   } catch (error) {
@@ -27,14 +27,20 @@ const getProductById = async (req, res) => {
 // Update product by ID
 const updateProductById = async (req, res) => {
   const { id } = req.params;
-  const { name,color,image,category, variants } = req.body;
-  images=uploadImageAndUpdateURL(image)
+  const { name, color, image, category, variants } = req.body;
+  images = uploadImageAndUpdateURL(image);
   try {
-    const product = await Product.findByIdAndUpdate(id, { name,color,images,category,variants });
+    const product = await Product.findByIdAndUpdate(id, {
+      name,
+      color,
+      images,
+      category,
+      variants,
+    });
     if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ message: "Product not found" });
     }
-    res.json({ message: 'Product updated successfully' });
+    res.json({ message: "Product updated successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -46,9 +52,9 @@ const deleteProductById = async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(id);
     if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ message: "Product not found" });
     }
-    res.json({ message: 'Product deleted successfully' });
+    res.json({ message: "Product deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -56,18 +62,29 @@ const deleteProductById = async (req, res) => {
 
 // Add product
 const addProduct = async (req, res) => {
-  const { name,image,category,color, variants } = req.body;
-  images=uploadImageAndUpdateURL(image)
-  
+  const { itemName, itemImage, itemColor, itemCategory, variants } = req.body;
+  images = await uploadImageAndUpdateURL(itemImage);
+
   try {
-    const product = new Product({ name,images,category,color, variants });
-    
+    const product = new Product({
+      itemName,
+      images,
+      itemColor,
+      itemCategory,
+      variants,
+    });
+
     await product.save();
-    res.json({ message: 'Product added successfully', id: product._id });
+    res.json({ message: "Product added successfully", id: product._id });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-  
 };
 
-module.exports = { getAllProducts, getProductById, updateProductById, deleteProductById, addProduct };
+module.exports = {
+  getAllProducts,
+  getProductById,
+  updateProductById,
+  deleteProductById,
+  addProduct,
+};

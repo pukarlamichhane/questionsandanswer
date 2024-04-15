@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import axios from 'axios'; // Import Axios
 
-const Login = () => {
+const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -12,7 +13,7 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let errors = {};
 
@@ -36,21 +37,32 @@ const Login = () => {
       return;
     }
 
-    // If no errors, proceed with form submission
-    console.log('Login Email:', email);
-    console.log('Login Password:', password);
-    setEmail('');
-    setPassword('');
-    setErrors({});
+    try {
+      // If no errors, proceed with form submission
+      const response = await axios.post('your_backend_endpoint_here', {
+        email,
+        password
+      });
+
+      console.log('Login successful:', response.data);
+
+      // Clear form fields and errors after successful login
+      setEmail('');
+      setPassword('');
+      setErrors({});
+    } catch (error) {
+      console.error('Login error:', error.response.data);
+      // Handle login errors here, if needed
+    }
   };
 
   return (
     <div className='w-full min-h-screen flex justify-center items-center bg-cover bg-center' style={{ backgroundImage: `url(https://media.cntraveler.com/photos/56420d2496771ce632e3df6a/master/pass/sneakers-tout.jpg)` }}>
       <div className='max-w-md w-full px-4 border-2 border-gray-800 rounded bg-white'>
-        <h1 className='text-3xl font-bold text-center py-4 text-black'>Sign up</h1>
+        <h1 className='text-3xl font-bold text-center py-4 text-black'>login</h1>
         <form className='mt-8 px-4 py-6' onSubmit={handleSubmit}>
           <input
-            className='p-3 my-2 w-full bg-white rounded border border-gray-300 text-black'
+            className='p-3 my-2 w-full bg-white rounded border border-gray-300 dark:border-black-600 dark:text-black'
             type='email'
             placeholder='Email'
             autoComplete='email'
@@ -60,7 +72,7 @@ const Login = () => {
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
           <div className='relative'>
             <input
-              className='p-3 my-2 w-full bg-white rounded border border-gray-300 pr-10 text-black'
+              className='p-3 my-2 w-full bg-white rounded border border-black-600 dark:border-black-600 dark:text-black pr-10 text-black'
               type={showPassword ? 'text' : 'password'}
               placeholder='Password'
               autoComplete='current-password'
@@ -89,7 +101,7 @@ const Login = () => {
               <span>Remember me</span>
             </label>
             <span>
-              <Link to="/signup" className='text-gray-500'>Forget password</Link>
+              <Link to="/login" className='text-gray-500'>Already have a account?</Link>
             </span>
           </div>
         </form>
@@ -98,4 +110,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
