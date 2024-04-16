@@ -1,5 +1,6 @@
+const { uploadImageAndUpdateURL } = require("../helpers/utils");
 const Product = require("../model/productmodel");
-const uploadImageAndUpdateURL = require("../helpers/utils");
+
 // Get all products
 const getAllProducts = async (req, res) => {
   try {
@@ -62,16 +63,15 @@ const deleteProductById = async (req, res) => {
 
 // Add product
 const addProduct = async (req, res) => {
-  const { itemName, itemImage, itemColor, itemCategory, variants } = req.body;
-  images = await uploadImageAndUpdateURL(itemImage);
+  images = await uploadImageAndUpdateURL(req.body.itemImage);
 
   try {
     const product = new Product({
-      itemName,
-      images,
-      itemColor,
-      itemCategory,
-      variants,
+      itemName: req.body.itemName,
+      images: images,
+      itemColor: req.body.itemColor,
+      itemCategory: req.body.itemCategory,
+      variants: req.body.variants,
     });
 
     await product.save();

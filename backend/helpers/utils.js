@@ -1,9 +1,8 @@
 const crypto = require("crypto");
 const cloudinary = require("cloudinary");
-require("dotenv/config");
-const Recipient = require("mailersend").Recipient;
-const EmailParams = require("mailersend").EmailParams;
-const MailerSend = require("mailersend");
+require("dotenv").config();
+const { MailerSend } = require("mailersend");
+const { EmailParams, Recipient } = require("mailersend");
 
 // Arrow function to generate a random number between min (inclusive) and max (exclusive)
 const generateRandomNumber = () => {
@@ -24,32 +23,22 @@ const uploadImageAndUpdateURL = async (image) => {
   }
 };
 
-// const mailerSend = new MailerSend({
-//   apiKey: process.env.API_KEY,
-// });
+const mailersend = new MailerSend({
+  api_key: process.env.API_KEY,
+});
 
-// const sentFrom = new Sender(
-//   "trial-3zxk54vn7rpljy6v.mlsender.net",
-//   "Sneakerhouse"
-// );
+function sendEmail(recipientEmail, code) {
+  const recipient = new Recipient(recipientEmail, "Recipient");
+  const recipients = [recipient];
 
-// async function sendEmail(recipientEmail, emailSubject, emailHtml, emailText) {
-//   const recipients = [new Recipient(recipientEmail)];
+  const emailParams = new EmailParams()
+    .setFrom("trial-3zxk54vn7rpljy6v.mlsender.net")
+    .setFromName("Sneakers Store")
+    .setRecipients(recipients)
+    .setSubject("Verification code")
+    .setText(`The verification code is ${code}`);
 
-//   const emailParams = new EmailParams()
-//     .setFrom("pukarlamichhane567@gmail.com")
-//     .setTo(recipients)
-//     .setReplyTo(sentFrom)
-//     .setSubject(emailSubject)
-//     .setText(emailText);
+  mailersend.send(emailParams);
+}
 
-//   try {
-//     await mailerSend.email.send(emailParams);
-//     console.log("Email sent successfully!");
-//   } catch (error) {
-//     console.error("Error sending email:", error);
-//   }
-// }
-
-// Export the function
-module.exports = { generateRandomNumber, uploadImageAndUpdateURL };
+module.exports = { generateRandomNumber, uploadImageAndUpdateURL, sendEmail };

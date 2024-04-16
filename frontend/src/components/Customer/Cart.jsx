@@ -13,12 +13,7 @@ function Card() {
   
             <svg className="w-5 h-5 text-gold fill-current">
               <path d="M11.6 0L14.12 5.33H20.24L15.84 8.66L18.36 13.99L13.95 11.99L9.55 13.99L12.07 8.66L7.67 5.33H13.8L11.6 0Z" />
-            </svg>
-  
-            <span className="text-sm ml-1">4.5</span>
-  
-            <span className="text-sm ml-2"> (120 reviews)</span>
-  
+            </svg>  
           </div>
   
           <div className="flex justify-between items-center">
