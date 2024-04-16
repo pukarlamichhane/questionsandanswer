@@ -1,20 +1,27 @@
-
+import { useState } from 'react';
 import Navbar from '../components/Customer/Navbar';
 import Product from '../components/Customer/Product';
 import Recomendation from '../components/Customer/Recomendation';
 import Sidebar from '../components/Customer/Sidebar';
+import products from "../page/cus/data";
+import Cart from './Cart';
+
 
 
 const Home = () => {
 
   const[selectcategory,setselectcategory]=useState(null)
 
-  const[query,setquery]=useState("")
+
+  const[Query,setQuery]=useState("")
 
   const filteredItems = products.filter(
-    (product) => product.title.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    (product) => product.title.toLowerCase().indexOf(Query.toLowerCase()) !== -1
   );
 
+  const handleInputChange = (event) => {
+    setQuery(event.target.value);
+  };
 
   const handleChange = (event) => {
     setselectcategory(event.target.value)
@@ -33,38 +40,33 @@ const Home = () => {
 
     if (selected) {
       filteredProducts = filteredProducts.filter(
-        ({ category, color, company, newPrice, title }) =>
+        ({ category, color, company, title }) =>
           category === selected ||
           color === selected ||
           company === selected ||
-          newPrice === selected ||
           title === selected
       );
     }
 
     return filteredProducts.map(
-      ({ img, title, star, reviews, prevPrice, newPrice }) => (
-        <Card
+      ({ img, title,  }) => (
+        <Cart
           key={Math.random()}
           img={img}
           title={title}
-          star={star}
-          reviews={reviews}
-          prevPrice={prevPrice}
-          newPrice={newPrice}
         />
       )
     );
   }
 
-  const result = filteredData(products, selectedCategory, query);
+  const result = filteredData(products, selectcategory, Query);
   
   return (
     <div className='p-0 m-0 box-border font-sans'>
-      <Sidebar></Sidebar>
-      <Navbar></Navbar>
-      <Recomendation></Recomendation>
-      <Product></Product>
+      <Sidebar handleChange={handleChange} />
+      <Navbar query={Query} handleInputChange={handleInputChange} />
+      <Recomendation handleClick={handleClick} />
+      <Product result={result} />
     </div>
   )
 }

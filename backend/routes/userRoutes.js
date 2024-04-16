@@ -5,9 +5,8 @@ const {
   updateUser,
   deleteUser,
   signupUser,
+  getAlluser,
 } = require("../controller/user");
-const { checkRole } = require("../middleware/middleware");
-
 const {
   getProductById,
   updateProductById,
@@ -15,25 +14,31 @@ const {
   addProduct,
   getAllProducts,
 } = require("../controller/product");
-
 const {
   checkEmail,
   checkCode,
   changepassword,
 } = require("../controller/password");
+const { checkRole } = require("../middleware/middleware");
 
 const router = express.Router();
 
+// User routes
 router.post("/login", login);
-router.post("/adduser", addUser);
-router.put("/update-user/:username", updateUser);
 router.post("/signup", signupUser);
-router.delete("/delete-user/:username", deleteUser);
-router.get("/:id", getProductById); // Get Product by ID
-router.put("/:id", updateProductById); // Update Product by ID
-router.delete("/:id", deleteProductById); // Delete Product by ID
-router.post("/add", addProduct); // Add Product
-router.get("/products", getAllProducts);
+router.post("/adduser", addUser);
+router.put("/users/:username", updateUser); // Update user by username
+router.delete("/users/:username", deleteUser); // Delete user by username
+router.get("/users", getAlluser); // Get all users
+
+// Product routes
+router.get("/products/:id", getProductById); // Get Product by ID
+router.put("/products/:id", updateProductById); // Update Product by ID
+router.delete("/products/:id", deleteProductById); // Delete Product by ID
+router.post("/products", addProduct); // Add Product
+router.get("/products", getAllProducts); // Get all Products
+
+// Password routes
 router.post("/checkemail", checkEmail);
 router.post("/checkcode", checkCode);
 router.post("/changepassword", changepassword);

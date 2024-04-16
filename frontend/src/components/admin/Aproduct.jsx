@@ -24,12 +24,25 @@ const Aproduct = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/api/user/add', {itemName,itemImage,itemColor,itemCategory,variants});
-      console.log(response.data); 
-      console.log(itemName)
-      // Log the response from the server
+      const formData = new FormData();
+      formData.append('itemName', itemName);
+      formData.append('itemColor', itemColor);
+      formData.append('itemCategory', itemCategory);
+      variants.forEach((variant, index) => {
+        formData.append(`variants[${index}][size]`, variant.size);
+        formData.append(`variants[${index}][price]`, variant.price);
+        formData.append(`variants[${index}][quantity]`, variant.quantity);
+      });
+      formData.append('itemImage', itemImage); // Append the file
+
+      const response = await axios.post('http://localhost:8000/api/add', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data' // Set content type to multipart/form-data
+        }
+      });
+
+      console.log(response.data);
       toast.success('Product added successfully!');
-      // Reset form fields if needed
       setItemName("");
       setItemImage("");
       setItemColor("");
@@ -38,7 +51,6 @@ const Aproduct = () => {
     } catch (error) {
       console.error('Error adding product:', error);
       toast.error('Failed to add product.');
-      // Handle error if needed
     }
   };
 

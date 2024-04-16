@@ -63,7 +63,7 @@ const deleteProductById = async (req, res) => {
 
 // Add product
 const addProduct = async (req, res) => {
-  images = await uploadImageAndUpdateURL(req.body.itemImage);
+  images = await uploadImageAndUpdateURL(req.body.itemImages);
 
   try {
     const product = new Product({
@@ -75,7 +75,7 @@ const addProduct = async (req, res) => {
     });
 
     await product.save();
-    res.json({ message: "Product added successfully", id: product._id });
+    res.json({ message: "Product added successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

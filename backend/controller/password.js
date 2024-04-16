@@ -4,7 +4,7 @@ const { generateRandomNumber, sendEmail } = require("../helpers/utils");
 
 // Function to handle checking email
 const checkEmail = async (req, res) => {
-  const { email } = console.log(req.body);
+  const { email } = req.body;
 
   try {
     // Check if the email exists in the database
@@ -12,7 +12,7 @@ const checkEmail = async (req, res) => {
 
     // If no matching email found
     if (!user) {
-      return res.status(400).json({ error: "Invalid Email" });
+      return res.status(400).json({ error: "Email not found" });
     }
 
     const code = await generateRandomNumber();

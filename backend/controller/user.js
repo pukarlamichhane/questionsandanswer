@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const User = require("../model/usermodel");
 const bcrypt = require("bcrypt");
 
+const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
+
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -10,21 +12,18 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     // Compare the provided password with the hashed password in the database
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     // Create a JWT token with user information and role
-    const token = jwt.sign(
-      { email: user.email, role: user.role },
-      "your_secret_key"
-    );
+    const token = jwt.sign({ email: user.email, role: user.role }, JWT_SECRET);
 
     // Send token in response
     return res.json({ message: "Login successful", token, role: user.role });
@@ -36,6 +35,14 @@ const login = async (req, res) => {
 
 const addUser = async (req, res) => {
   const { email, password, usertype } = req.body;
+
+  // Validate input
+  if (!email || !password || !usertype) {
+    return res
+      .status(400)
+      .json({ message: "Email, password, and usertype are required" });
+  }
+
   const hash = await bcrypt.hash(password, 10);
 
   try {
@@ -64,12 +71,18 @@ const updateUser = async (req, res) => {
 
 const signupUser = async (req, res) => {
   const { email, password } = req.body;
+
+  // Validate input
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required" });
+  }
+
   const hash = await bcrypt.hash(password, 10);
   try {
     // Check if username already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "Username already exists" });
+      return res.status(400).json({ message: "User already exists" });
     }
 
     // Add the new user to the database
@@ -95,4 +108,21 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { login, addUser, updateUser, signupUser, deleteUser };
+const getAlluser = async (req, res) => {
+  try {
+    const data = await User.find();
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = {
+  getAlluser,
+  login,
+  addUser,
+  updateUser,
+  signupUser,
+  deleteUser,
+};
