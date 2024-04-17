@@ -35,7 +35,7 @@ router.get("/users", getAlluser); // Get all users
 router.get("/products/:id", getProductById); // Get Product by ID
 router.put("/products/:id", updateProductById); // Update Product by ID
 router.delete("/products/:id", deleteProductById); // Delete Product by ID
-router.post("/products", addProduct); // Add Product
+router.post("/addproduct", addProduct); // Add Product
 router.get("/products", getAllProducts); // Get all Products
 
 // Password routes

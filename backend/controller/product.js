@@ -61,11 +61,9 @@ const deleteProductById = async (req, res) => {
   }
 };
 
-// Add product
 const addProduct = async (req, res) => {
-  images = await uploadImageAndUpdateURL(req.body.itemImages);
-
   try {
+    const images = await uploadImageAndUpdateURL(req.body.itemImages); // Assuming itemImages is an array of file objects
     const product = new Product({
       itemName: req.body.itemName,
       images: images,
@@ -73,7 +71,6 @@ const addProduct = async (req, res) => {
       itemCategory: req.body.itemCategory,
       variants: req.body.variants,
     });
-
     await product.save();
     res.json({ message: "Product added successfully" });
   } catch (error) {

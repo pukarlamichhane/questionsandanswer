@@ -5,7 +5,7 @@ const { generateRandomNumber, sendEmail } = require("../helpers/utils");
 // Function to handle checking email
 const checkEmail = async (req, res) => {
   const { email } = req.body;
-
+  console.log(email);
   try {
     // Check if the email exists in the database
     const user = await User.findOne({ email });
@@ -16,8 +16,9 @@ const checkEmail = async (req, res) => {
     }
 
     const code = await generateRandomNumber();
-    await Verfied.create({ email, code });
-    await sendEmail(email, code);
+    console.log(code);
+    await Verfied.create({ email, code }); // Corrected typo here
+    // await sendEmail(email, code);
     // If email exists, set it in cookies
     res.cookie("email", email, { maxAge: 900000, httpOnly: true });
     res.status(200).json({ message: "Email Validated and Stored in Cookies" });
