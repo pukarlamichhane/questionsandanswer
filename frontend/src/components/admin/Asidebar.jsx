@@ -15,43 +15,43 @@ function Asidebar() {
     <aside className={`sidebar-responsive fixed top-0 left-0 h-full bg-white-900 text-black w-64 mt-16 border-r border-gray-300`}>
       <ul className='sidebar-list p-0'>
           <li className={`sidebar-list-item py-4 px-6 ${isDashboard ? 'hover:bg-blue-800 hover:text-white' : ''}`}>
-              <Link to="/dashboard" className="flex items-center">
+              <Link to="/admin/dashboard" className="flex items-center">
                   <BsGrid1X2Fill className='icon'/>
                   <span className="ml-2">Dashboard</span>
               </Link>
           </li>
           <li className='sidebar-list-item py-4 px-6 hover:bg-blue-800 hover:text-white'>
-              <Link to="/products" className="flex items-center">
+              <Link to="/admin/product" className="flex items-center">
                   <BsFillArchiveFill className='icon'/>
                   <span className="ml-2">View user</span>
               </Link>
           </li>
           <li className='sidebar-list-item py-4 px-6 hover:bg-blue-800 hover:text-white'>
-              <Link to="/categories" className="flex items-center">
+              <Link to="/admin/addproduct" className="flex items-center">
                   <BsFillGrid3X3GapFill className='icon'/>
                   <span className="ml-2">Add user</span>
               </Link>
           </li>
           <li className='sidebar-list-item py-4 px-6 hover:bg-blue-800 hover:text-white'>
-              <Link to="/customers" className="flex items-center">
+              <Link to="/admin/viewuser" className="flex items-center">
                   <BsPeopleFill className='icon'/>
                   <span className="ml-2">Add Product</span>
               </Link>
           </li>
           <li className='sidebar-list-item py-4 px-6 hover:bg-blue-800 hover:text-white'>
-              <Link to="/inventory" className="flex items-center">
+              <Link to="/admin/addusers" className="flex items-center">
                   <BsListCheck className='icon'/>
                   <span className="ml-2">View Product</span>
               </Link>
           </li>
           <li className='sidebar-list-item py-4 px-6 hover:bg-blue-800 hover:text-white'>
-              <Link to="/reports" className="flex items-center">
+              <Link to="/admin/vieworders" className="flex items-center">
                   <BsMenuButtonWideFill className='icon'/>
                   <span className="ml-2">Order</span>
               </Link>
           </li>
           <li className='sidebar-list-item py-4 px-6 hover:bg-blue-800 hover:text-white'>
-              <Link to="/settings" className="flex items-center">
+              <Link to="/admin/settings" className="flex items-center">
                   <BsFillGearFill className='icon'/>
                   <span className="ml-2">Setting</span>
               </Link>
