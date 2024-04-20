@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Aproduct = () => {
   const [itemName, setItemName] = useState("");
-  const [itemImage, setItemImage] = useState("");
+  const [itemImages, setItemImages] = useState([]);
   const [itemColor, setItemColor] = useState("");
   const [itemCategory, setItemCategory] = useState("");
   const [variants, setVariants] = useState([{ size: "", price: "", quantity: "" }]);
@@ -33,9 +33,11 @@ const Aproduct = () => {
         formData.append(`variants[${index}][price]`, variant.price);
         formData.append(`variants[${index}][quantity]`, variant.quantity);
       });
-      formData.append('itemImage', itemImage); // Append the file
+      itemImages.forEach((image, index) => {
+        formData.append(`itemImages[${index}]`, image);
+      });
 
-      const response = await axios.post('http://localhost:8000/api/add', formData, {
+      const response = await axios.post('http://localhost:8000/api/addproduct', formData, {
         headers: {
           'Content-Type': 'multipart/form-data' // Set content type to multipart/form-data
         }
@@ -44,7 +46,7 @@ const Aproduct = () => {
       console.log(response.data);
       toast.success('Product added successfully!');
       setItemName("");
-      setItemImage("");
+      setItemImages([]);
       setItemColor("");
       setItemCategory("");
       setVariants([{ size: "", price: "", quantity: "" }]);
@@ -52,6 +54,15 @@ const Aproduct = () => {
       console.error('Error adding product:', error);
       toast.error('Failed to add product.');
     }
+  };
+
+  const handleImageUpload = (event) => {
+    const files = event.target.files;
+    const uploadedImages = [];
+    for (let i = 0; i < files.length; i++) {
+      uploadedImages.push(files[i]);
+    }
+    setItemImages(uploadedImages);
   };
 
   return (
@@ -73,13 +84,13 @@ const Aproduct = () => {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="itemImage" className="block font-semibold mb-2">Item Image</label>
+              <label htmlFor="itemImages" className="block font-semibold mb-2">Item Images</label>
               <input
                 type="file"
-                id="itemImage"
-                onChange={(e) => setItemImage(e.target.files[0])}
+                id="itemImages"
+                multiple
+                onChange={handleImageUpload}
                 required
-                className="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
               />
             </div>
             <div className="mb-4">
