@@ -1,15 +1,17 @@
 import { useState } from "react";
 import Asidebar from "./Asidebar";
-import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Aproduct = () => {
   const [itemName, setItemName] = useState("");
-  const [itemImages, setItemImages] = useState([]);
+  const [itemImage, setItemImage] = useState(null);
   const [itemColor, setItemColor] = useState("");
   const [itemCategory, setItemCategory] = useState("");
-  const [variants, setVariants] = useState([{ size: "", price: "", quantity: "" }]);
+  const [variants, setVariants] = useState([
+    { size: "", price: "", quantity: "" },
+  ]);
 
   const handleVariantChange = (index, key, value) => {
     const newVariants = [...variants];
@@ -25,44 +27,46 @@ const Aproduct = () => {
     event.preventDefault();
     try {
       const formData = new FormData();
-      formData.append('itemName', itemName);
-      formData.append('itemColor', itemColor);
-      formData.append('itemCategory', itemCategory);
+      formData.append("itemName", itemName);
+      formData.append("itemColor", itemColor);
+      formData.append("itemCategory", itemCategory);
       variants.forEach((variant, index) => {
         formData.append(`variants[${index}][size]`, variant.size);
         formData.append(`variants[${index}][price]`, variant.price);
         formData.append(`variants[${index}][quantity]`, variant.quantity);
       });
-      itemImages.forEach((image, index) => {
-        formData.append(`itemImages[${index}]`, image);
-      });
+      formData.append("itemImage", itemImage);
 
-      const response = await axios.post('http://localhost:8000/api/addproduct', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data' // Set content type to multipart/form-data
+      console.log(formData);
+
+      const response = await axios.post(
+        "http://localhost:8000/api/addproduct",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      });
+      );
 
       console.log(response.data);
-      toast.success('Product added successfully!');
+      toast.success("Product added successfully!");
       setItemName("");
-      setItemImages([]);
+      setItemImage(null);
       setItemColor("");
       setItemCategory("");
       setVariants([{ size: "", price: "", quantity: "" }]);
     } catch (error) {
-      console.error('Error adding product:', error);
-      toast.error('Failed to add product.');
+      console.error("Error adding product:", error);
+      toast.error("Failed to add product.");
     }
   };
 
   const handleImageUpload = (event) => {
-    const files = event.target.files;
-    const uploadedImages = [];
-    for (let i = 0; i < files.length; i++) {
-      uploadedImages.push(files[i]);
+    const file = event.target.files[0];
+    if (file) {
+      setItemImage(file);
     }
-    setItemImages(uploadedImages);
   };
 
   return (
@@ -70,10 +74,14 @@ const Aproduct = () => {
       <Asidebar />
       <div className="flex-1 p-6">
         <div className="max-w-xl mx-auto bg-white rounded-lg shadow-md p-8">
-          <h3 className="text-2xl font-semibold text-center mb-4">Add Products</h3>
+          <h3 className="text-2xl font-semibold text-center mb-4">
+            Add Products
+          </h3>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label htmlFor="itemName" className="block font-semibold mb-2">Item Name:</label>
+              <label htmlFor="itemName" className="block font-semibold mb-2">
+                Item Name:
+              </label>
               <input
                 type="text"
                 id="itemName"
@@ -84,17 +92,20 @@ const Aproduct = () => {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="itemImages" className="block font-semibold mb-2">Item Images</label>
+              <label htmlFor="itemImage" className="block font-semibold mb-2">
+                Item Image
+              </label>
               <input
                 type="file"
-                id="itemImages"
-                multiple
+                id="itemImage"
                 onChange={handleImageUpload}
                 required
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="itemColor" className="block font-semibold mb-2">Item Color:</label>
+              <label htmlFor="itemColor" className="block font-semibold mb-2">
+                Item Color:
+              </label>
               <input
                 type="text"
                 id="itemColor"
@@ -105,7 +116,12 @@ const Aproduct = () => {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="itemCategory" className="block font-semibold mb-2">Item Category:</label>
+              <label
+                htmlFor="itemCategory"
+                className="block font-semibold mb-2"
+              >
+                Item Category:
+              </label>
               <input
                 type="text"
                 id="itemCategory"
@@ -120,35 +136,56 @@ const Aproduct = () => {
               {variants.map((variant, index) => (
                 <div key={index} className="flex mb-4">
                   <div className="w-1/3 mr-2">
-                    <label htmlFor={`size${index}`} className="block font-semibold mb-1">Size:</label>
+                    <label
+                      htmlFor={`size${index}`}
+                      className="block font-semibold mb-1"
+                    >
+                      Size:
+                    </label>
                     <input
                       type="number"
                       id={`size${index}`}
                       value={variant.size}
-                      onChange={(e) => handleVariantChange(index, "size", e.target.value)}
+                      onChange={(e) =>
+                        handleVariantChange(index, "size", e.target.value)
+                      }
                       required
                       className="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <div className="w-1/3 mr-2">
-                    <label htmlFor={`price${index}`} className="block font-semibold mb-1">Price:</label>
+                    <label
+                      htmlFor={`price${index}`}
+                      className="block font-semibold mb-1"
+                    >
+                      Price:
+                    </label>
                     <input
                       type="number"
                       step="0.01"
                       id={`price${index}`}
                       value={variant.price}
-                      onChange={(e) => handleVariantChange(index, "price", e.target.value)}
+                      onChange={(e) =>
+                        handleVariantChange(index, "price", e.target.value)
+                      }
                       required
                       className="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <div className="w-1/3">
-                    <label htmlFor={`quantity${index}`} className="block font-semibold mb-1">Quantity:</label>
+                    <label
+                      htmlFor={`quantity${index}`}
+                      className="block font-semibold mb-1"
+                    >
+                      Quantity:
+                    </label>
                     <input
                       type="number"
                       id={`quantity${index}`}
                       value={variant.quantity}
-                      onChange={(e) => handleVariantChange(index, "quantity", e.target.value)}
+                      onChange={(e) =>
+                        handleVariantChange(index, "quantity", e.target.value)
+                      }
                       required
                       className="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500"
                     />
@@ -172,7 +209,17 @@ const Aproduct = () => {
           </form>
         </div>
       </div>
-      <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </main>
   );
 };

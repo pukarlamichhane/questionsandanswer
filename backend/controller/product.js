@@ -1,6 +1,5 @@
-const { uploadImageAndUpdateURL } = require("../helpers/utils");
 const Product = require("../model/productmodel");
-
+const cloudinary = require("cloudinary").v2;
 // Get all products
 const getAllProducts = async (req, res) => {
   try {
@@ -63,15 +62,27 @@ const deleteProductById = async (req, res) => {
 
 const addProduct = async (req, res) => {
   try {
-    const images = await uploadImageAndUpdateURL(req.body.itemImages); // Assuming itemImages is an array of file objects
+    const base64String = req.file.buffer.toString("base64");
+
+    // Upload the image to Cloudinary
+    const result = await cloudinary.uploader.upload(
+      `data:image/jpeg;base64,${base64String}`,
+      {
+        folder: "photo", // Optional: Folder to store images in Cloudinary
+      }
+    );
+    // Create a new Product object
     const product = new Product({
       itemName: req.body.itemName,
-      images: images,
+      images: result.secure_url, // Assuming images is an array
       itemColor: req.body.itemColor,
       itemCategory: req.body.itemCategory,
       variants: req.body.variants,
     });
+
+    // Save the product to the database
     await product.save();
+
     res.json({ message: "Product added successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });

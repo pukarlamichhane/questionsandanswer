@@ -21,8 +21,12 @@ const {
 } = require("../controller/password");
 const { checkRole } = require("../middleware/middleware");
 
+const multer = require("multer");
+
 const router = express.Router();
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 // User routes
 router.post("/login", login);
 router.post("/signup", signupUser);
@@ -33,9 +37,9 @@ router.get("/users", getAlluser); // Get all users
 
 // Product routes
 router.get("/products/:id", getProductById); // Get Product by ID
-router.put("/products/:id", updateProductById); // Update Product by ID
+router.put("/products/:id", upload.single("itemImage"), updateProductById); // Update Product by ID
 router.delete("/products/:id", deleteProductById); // Delete Product by ID
-router.post("/addproduct", addProduct); // Add Product
+router.post("/addproduct", upload.single("itemImage"), addProduct); // Add Product
 router.get("/products", getAllProducts); // Get all Products
 
 // Password routes

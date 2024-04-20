@@ -1,11 +1,10 @@
 const express = require("express");
-const cloudinary = require("cloudinary");
 const connectDB = require("./db/connectDB");
 require("dotenv").config();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const useroutes = require("./routes/userRoutes");
-
+const cloudinary = require("cloudinary").v2;
 const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -13,7 +12,10 @@ const PORT = process.env.PORT || 8000;
 app.use(bodyParser.json());
 app.use(cookieParser()); // Allow all origins
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 connectDB();
+
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

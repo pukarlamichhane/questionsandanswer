@@ -8,20 +8,6 @@ const generateRandomNumber = () => {
   return crypto.randomInt(0, 10000);
 };
 
-const uploadImageAndUpdateURL = async (image) => {
-  try {
-    // Upload image to Cloudinary
-    const uploadedResponse = await cloudinary.uploader.upload(image);
-
-    // Update image URL
-    return uploadedResponse.secure_url;
-  } catch (error) {
-    // Handle any errors that occur during upload
-    console.error("Error uploading image:", error);
-    throw error; // Re-throw the error for the caller to handle
-  }
-};
-
 const mailersend = new MailerSend({
   api_key: process.env.API_KEY,
 });
@@ -44,4 +30,4 @@ async function sendEmail(recipientEmail, code) {
   }
 }
 
-module.exports = { generateRandomNumber, uploadImageAndUpdateURL, sendEmail };
+module.exports = { generateRandomNumber, sendEmail };
