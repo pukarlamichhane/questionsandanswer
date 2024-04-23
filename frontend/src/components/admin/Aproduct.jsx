@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Aproduct = () => {
+const AProduct = () => {
   const [itemName, setItemName] = useState("");
   const [itemImage, setItemImage] = useState(null);
   const [itemColor, setItemColor] = useState("");
@@ -224,4 +224,4 @@ const Aproduct = () => {
   );
 };
 
-export default Aproduct;
+export default AProduct;

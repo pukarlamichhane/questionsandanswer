@@ -1,7 +1,7 @@
-import  { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 
 const Email = () => {
-  const [verificationCodes, setVerificationCodes] = useState(['', '', '', '']);
+  const [verificationCodes, setVerificationCodes] = useState(["", "", "", ""]);
   const [isVerified, setIsVerified] = useState(false);
   const [timer, setTimer] = useState(60);
   const [isResendActive, setIsResendActive] = useState(false);
@@ -27,7 +27,7 @@ const Email = () => {
     setIsVerified(false);
     setIsResendActive(false);
     // Reset all input fields
-    setVerificationCodes(['', '', '', '']);
+    setVerificationCodes(["", "", "", ""]);
     // Focus on the first input field
     inputRefs.current[0].focus();
   };
@@ -54,7 +54,9 @@ const Email = () => {
           <>
             <h2 className="text-2xl font-bold mb-4">Email Verification</h2>
             <div className="mb-4">
-              <p className="text-gray-700 mb-2">Enter the verification codes sent to your email:</p>
+              <p className="text-gray-700 mb-2">
+                Enter the verification codes sent to your email:
+              </p>
               <div className="flex space-x-2">
                 {verificationCodes.map((code, index) => (
                   <input

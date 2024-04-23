@@ -46,6 +46,7 @@ function Vuser() {
             await axios.delete(`http://localhost:8000/api/users/${userId}`);
             // Remove the deleted user from the list
             setUserData(userData.filter(user => user._id !== userId));
+            
         } catch (error) {
             console.error('Error deleting user:', error);
         }

@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios"; // Import Axios
+// import axios from "axios"; // Import Axios
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-const Signup = () => {
+const ALogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -41,18 +40,18 @@ const Signup = () => {
 
     try {
       // If no errors, proceed with form submission
-      const response = await axios.post("your_backend_endpoint_here", {
-        email,
-        password,
-      });
+      // const response = await axios.post("http://localhost:8000/api/login", {
+      //   email,
+      //   password,
+      // });
 
-      console.log("Login successful:", response.data);
-      toast.success("Product added successfully!");
+      // console.log("Login successful:", response.data);
+      toast.success("Login sucessfull!");
+      navigate("/product");
       // Clear form fields and errors after successful login
       setEmail("");
       setPassword("");
       setErrors({});
-      navigate("/product");
     } catch (error) {
       console.error("Login error:", error.response.data);
       toast.error("Failed");
@@ -64,12 +63,12 @@ const Signup = () => {
     <div
       className="w-full min-h-screen flex justify-center items-center bg-cover bg-center"
       style={{
-        backgroundImage: `url(https://media.cntraveler.com/photos/56420d2496771ce632e3df6a/master/pass/sneakers-tout.jpg)`,
+        backgroundImage: `url(https://sneakernews.com/wp-content/uploads/2021/01/Air-Jordan-1-University-Blue-555088-134-3.jpg?w=1140)`,
       }}
     >
       <div className="max-w-md w-full px-4 border-2 border-gray-800 rounded bg-white">
         <h1 className="text-3xl font-bold text-center py-4 text-black">
-          Signup
+          login
         </h1>
         <form className="mt-8 px-4 py-6" onSubmit={handleSubmit}>
           <input
@@ -111,7 +110,7 @@ const Signup = () => {
             type="submit"
             className="bg-red-600 py-3 my-6 rounded w-full text-white font-bold"
           >
-            Signup
+            Login
           </button>
           <div className="flex justify-between items-center text-sm">
             <label className="flex items-center text-black">
@@ -119,8 +118,8 @@ const Signup = () => {
               <span>Remember me</span>
             </label>
             <span>
-              <Link to="/login" className="text-gray-500">
-                Already have a account?
+              <Link to="/signup" className="text-gray-500">
+                Forget password
               </Link>
             </span>
           </div>
@@ -141,4 +140,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default ALogin;

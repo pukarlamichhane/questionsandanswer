@@ -73,10 +73,10 @@ const addProduct = async (req, res) => {
     );
     // Create a new Product object
     const product = new Product({
-      itemName: req.body.itemName,
-      images: result.secure_url, // Assuming images is an array
-      itemColor: req.body.itemColor,
-      itemCategory: req.body.itemCategory,
+      name: req.body.itemName,
+      image: result.secure_url, // Assuming images is an array
+      color: req.body.itemColor,
+      category: req.body.itemCategory,
       variants: req.body.variants,
     });
 

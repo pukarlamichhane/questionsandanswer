@@ -34,16 +34,10 @@ const login = async (req, res) => {
 };
 
 const addUser = async (req, res) => {
-  const { email, password, usertype } = req.body;
-
   // Validate input
-  if (!email || !password || !usertype) {
-    return res
-      .status(400)
-      .json({ message: "Email, password, and usertype are required" });
-  }
-
-  const hash = await bcrypt.hash(password, 10);
+  const email = req.body.email;
+  const usertype = req.body.usertype;
+  const hash = await bcrypt.hash(req.body.password, 10);
 
   try {
     // Create new user in the database
