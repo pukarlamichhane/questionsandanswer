@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-// import axios from "axios"; // Import Axios
+import axios from "axios"; // Import Axios
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -39,23 +41,35 @@ const Login = () => {
     }
 
     try {
-      // // If no errors, proceed with form submission
-      // const response = await axios.post("http://localhost:8000/api/login", {
-      //   email,
-      //   password,
-      // });
+      // Attempt to login
+      const response = await axios.post("http://localhost:8000/api/login", {
+        email,
+        password,
+      });
 
-      // console.log("Login successful:", response.data);
-      toast.success("Product added successfully!");
-      navigate("/product");
+      const { message, email: userEmail, token, role } = response.data;
+
+      // Store user information in localStorage
+      localStorage.setItem("userToken", token);
+      localStorage.setItem("userEmail", userEmail);
+      localStorage.setItem("userRole", role);
+
+      toast.success(message);
+
+      // Navigate based on role
+      if (role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/home");
+      }
+
       // Clear form fields and errors after successful login
       setEmail("");
       setPassword("");
       setErrors({});
     } catch (error) {
-      console.error("Login error:", error.response.data);
-      toast.error("Failed");
-      // Handle login errors here, if needed
+      toast.error("Failed to login");
+      console.error("Login error:", error?.response?.data || error);
     }
   };
 
@@ -68,11 +82,11 @@ const Login = () => {
     >
       <div className="max-w-md w-full px-4 border-2 border-gray-800 rounded bg-white">
         <h1 className="text-3xl font-bold text-center py-4 text-black">
-          login
+          Login
         </h1>
         <form className="mt-8 px-4 py-6" onSubmit={handleSubmit}>
           <input
-            className="p-3 my-2 w-full bg-white rounded border border-gray-300 dark:border-black-600 dark:text-black"
+            className="p-3 my-2 w-full bg-white rounded border border-gray-300"
             type="email"
             placeholder="Email"
             autoComplete="email"
@@ -84,7 +98,7 @@ const Login = () => {
           )}
           <div className="relative">
             <input
-              className="p-3 my-2 w-full bg-white rounded border border-black-600 dark:border-black-600 dark:text-black pr-10 text-black"
+              className="p-3 my-2 w-full bg-white rounded border border-gray-300 pr-10"
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               autoComplete="current-password"

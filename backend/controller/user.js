@@ -26,7 +26,12 @@ const login = async (req, res) => {
     const token = jwt.sign({ email: user.email, role: user.role }, JWT_SECRET);
 
     // Send token in response
-    return res.json({ message: "Login successful", token, role: user.role });
+    return res.json({
+      message: "Login successful",
+      email: user.email,
+      token,
+      role: user.role,
+    });
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({ message: "Internal server error" });
