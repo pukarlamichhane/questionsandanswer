@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom";
-import {
-  Bars3Icon,
-  MagnifyingGlassIcon,
-  ShoppingBagIcon,
-} from "@heroicons/react/24/outline";
+import { Bars3Icon, ShoppingBagIcon } from "@heroicons/react/24/outline";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
+  const cartLength = useSelector((state) => state.cart.items.length);
   return (
     <div className="bg-white">
       <header className="relative bg-white">
@@ -52,20 +50,6 @@ export default function Navbar() {
                   </Link>
                 </div>
 
-                {/* Search */}
-                <div className="flex lg:ml-6">
-                  <Link
-                    to="/search"
-                    className="p-2 text-gray-400 hover:text-gray-500"
-                  >
-                    <span className="sr-only">Search</span>
-                    <MagnifyingGlassIcon
-                      className="h-6 w-6"
-                      aria-hidden="true"
-                    />
-                  </Link>
-                </div>
-
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
                   <Link to="/cart" className="group -m-2 flex items-center p-2">
@@ -74,7 +58,7 @@ export default function Navbar() {
                       aria-hidden="true"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      0
+                      {cartLength}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>
