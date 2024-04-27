@@ -65,6 +65,7 @@ const updateUser = async (req, res) => {
   } catch (error) {
     console.error("Error updating user:", error);
     return res.status(500).json({ message: "Internal server error" });
+
   }
 };
 
@@ -87,7 +88,14 @@ const signupUser = async (req, res) => {
     // Add the new user to the database
     await User.create({ email, password: hash });
 
-    return res.json({ message: "User registered successfully" });
+    
+    const token = jwt.sign({  email }, JWT_SECRET);
+    return res.json({
+      message: "Signup successful",
+      email: email,
+      token,
+    });
+
   } catch (error) {
     console.error("Error during signup:", error);
     return res.status(500).json({ message: "Internal server error" });

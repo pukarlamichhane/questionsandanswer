@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../store/cartSlice";
 
 const DetailProduct = () => {
   const [item, setItem] = useState(null);
@@ -8,6 +10,7 @@ const DetailProduct = () => {
   const [selectedSize, setSelectedSize] = useState(32);
   const [error, setError] = useState(null);
   const { id } = useParams(); // Get product ID from route
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,6 +49,7 @@ const DetailProduct = () => {
     console.log(
       `Adding ${amount} of ${item.name} size ${selectedSize} to cart.`
     );
+    dispatch(addToCart(item));
   };
 
   return (
