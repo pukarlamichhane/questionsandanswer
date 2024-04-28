@@ -5,6 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { AuthProvider } from "./component/auth/Auth";
 
 // Lazy-loaded components
 const HomeCus = lazy(() => import("./page/Home/Home"));
@@ -56,9 +57,11 @@ const AppRoutes = () => (
 
 // Main App Component
 const App = () => (
-  <Router>
-    <AppRoutes />
-  </Router>
+  <AuthProvider>
+    <Router>
+      <AppRoutes />
+    </Router>
+  </AuthProvider>
 );
 
 export default App;
