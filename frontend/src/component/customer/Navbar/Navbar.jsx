@@ -3,7 +3,20 @@ import { Bars3Icon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
 
 export default function Navbar() {
-  const cartLength = useSelector((state) => state.cart.items.length);
+  // Get the cart state from the Redux store
+  const cart = useSelector((state) => state.cart.carts);
+
+  // Calculate the total number of items in the cart
+  const totalCartItems = cart.reduce((total, item) => {
+    return (
+      total +
+      item.variants.reduce(
+        (itemTotal, variant) => itemTotal + variant.quantity,
+        0
+      )
+    );
+  }, 0);
+
   return (
     <div className="bg-white">
       <header className="relative bg-white">
@@ -58,7 +71,7 @@ export default function Navbar() {
                       aria-hidden="true"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      {cartLength}
+                      {totalCartItems}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>
