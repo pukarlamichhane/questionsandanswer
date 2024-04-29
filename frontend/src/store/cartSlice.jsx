@@ -1,65 +1,77 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Define the initial state for the cart
 const initialState = {
-  carts: [], // Initialize with an empty cart
+  carts: [], // Initial cart is empty
 };
 
+// Create a Redux slice for cart operations
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    // Action to add an item to the cart with the specified quantity
     addToCart: (state, action) => {
       const newItem = action.payload;
-      const existingItem = state.carts.find((item) => item.id === newItem.id); // Check if item exists
+      const { quantity } = newItem.selectedVariant;
+
+      // Find if the item already exists in the cart
+      const existingItem = state.carts.find((item) => item.id === newItem.id);
 
       if (existingItem) {
+        // Check if the specific variant (by size) already exists
         const existingVariant = existingItem.variants.find(
           (variant) => variant.size === newItem.selectedVariant.size
-        ); // Find the correct variant by size
+        );
 
         if (existingVariant) {
-          // If variant exists, increase quantity
-          existingVariant.quantity += 1;
+          // If variant exists, increase its quantity by the specified amount
+          existingVariant.quantity += quantity;
         } else {
-          // If variant doesn't exist, add it with initial quantity
+          // If variant doesn't exist, add it with the specified quantity
           existingItem.variants.push({
             ...newItem.selectedVariant,
-            quantity: 1,
+            quantity,
           });
         }
       } else {
-        // If item doesn't exist, add it to the cart
+        // If the item doesn't exist in the cart, add it with its variant
         state.carts.push({
           id: newItem.id,
           name: newItem.name,
           image: newItem.image,
-          variants: [{ ...newItem.selectedVariant, quantity: 1 }],
+          variants: [{ ...newItem.selectedVariant, quantity }],
         });
       }
     },
 
+    // Action to remove or decrease item/variant from the cart
     deleteFromCart: (state, action) => {
-      const { id, size } = action.payload; // Get item ID and variant size from the action
-      const existingItemIndex = state.carts.findIndex((item) => item.id === id); // Find item by ID
+      const { id, size } = action.payload;
+
+      // Find the index of the existing item in the cart
+      const existingItemIndex = state.carts.findIndex((item) => item.id === id);
 
       if (existingItemIndex !== -1) {
-        const variants = state.carts[existingItemIndex].variants; // Get variants for the existing item
+        const variants = state.carts[existingItemIndex].variants;
+
+        // Find the specific variant to be removed or reduced
         const existingVariantIndex = variants.findIndex(
           (variant) => variant.size === size
-        ); // Find the variant by size
+        );
 
         if (existingVariantIndex !== -1) {
-          const existingVariant = variants[existingVariantIndex]; // Get the variant
+          const existingVariant = variants[existingVariantIndex];
 
           if (existingVariant.quantity > 1) {
             // Decrease quantity if it's greater than one
             existingVariant.quantity -= 1;
           } else {
-            // Remove the variant if the quantity is one
+            // If only one quantity, remove the variant
             variants.splice(existingVariantIndex, 1);
 
             if (variants.length === 0) {
-              // If no variants are left, remove the item
+              // If no variants are left, remove the item entirely
               state.carts.splice(existingItemIndex, 1);
             }
           }
@@ -69,7 +81,8 @@ const cartSlice = createSlice({
   },
 });
 
-// Export action creators for each case reducer function
+// Export the action creators for cart operations
 export const { addToCart, deleteFromCart } = cartSlice.actions;
 
-export default cartSlice.reducer; // Export the reducer for the Redux store
+// Export the reducer for Redux store integration
+export default cartSlice.reducer;
