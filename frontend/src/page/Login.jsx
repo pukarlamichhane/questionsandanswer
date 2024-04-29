@@ -51,7 +51,7 @@ const Login = () => {
       toast.success("Login successful!");
       // Navigate based on user role
       const userRole = localStorage.getItem("userRole");
-      navigate(userRole === "admin" ? "/admin/dashboard" : "/home");
+      navigate(userRole === "admin" ? "/admin/dashboard" : "/product");
 
       // Clear fields after successful login
       setEmail("");

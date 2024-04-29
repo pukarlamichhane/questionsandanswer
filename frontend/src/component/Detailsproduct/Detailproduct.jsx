@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"; // Importing React hooks
+import { useState, useEffect } from "react"; // React hooks
 import axios from "axios"; // Axios for HTTP requests
 import { useParams } from "react-router-dom"; // To get parameters from the route
 import { useDispatch } from "react-redux"; // To dispatch Redux actions
@@ -7,9 +7,9 @@ import { ToastContainer, toast } from "react-toastify"; // Toaster notifications
 import "react-toastify/dist/ReactToastify.css"; // Toaster CSS
 
 const DetailProduct = () => {
-  const [item, setItem] = useState(null);
-  const [amount, setAmount] = useState(1); // Default amount
-  const [selectedSize, setSelectedSize] = useState(32); // Default size
+  const [item, setItem] = useState(null); // Product data
+  const [amount, setAmount] = useState(1); // Default quantity
+  const [selectedSize, setSelectedSize] = useState(null); // Default size
   const [error, setError] = useState(null); // Error handling
   const { id } = useParams(); // Get product ID from route
   const dispatch = useDispatch(); // Redux dispatch
@@ -21,11 +21,17 @@ const DetailProduct = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/products/${id}` // Use dynamic ID
+          `http://localhost:8000/api/products/${id}` // Dynamic ID
         );
 
         if (isMounted) {
-          setItem(response.data); // Set the fetched data to item state
+          const product = response.data;
+          setItem(product);
+
+          // Set the default size to the first variant's size if it exists
+          if (product.variants && product.variants.length > 0) {
+            setSelectedSize(product.variants[0].size); // Set default size
+          }
         }
       } catch (err) {
         if (isMounted) {
@@ -49,7 +55,6 @@ const DetailProduct = () => {
     return <div>Loading...</div>; // Display loading state
   }
 
-  // Ensure item has variants and find the selected variant
   const selectedVariant = item.variants?.find(
     (variant) => variant.size === selectedSize
   );
@@ -60,14 +65,13 @@ const DetailProduct = () => {
 
   const handleAddToCart = () => {
     if (selectedVariant) {
-      // Ensure there's a selected variant
       dispatch(
         addToCart({
           id: item.id,
           name: item.name,
           image: item.image,
-          selectedVariant: selectedVariant,
-          amount: amount,
+          selectedVariant,
+          amount,
         })
       );
 
@@ -76,7 +80,7 @@ const DetailProduct = () => {
         autoClose: 2000, // Time to auto-close
         hideProgressBar: true,
         closeOnClick: true,
-        pauseOnHover: true,
+        pause: true,
         draggable: true,
       });
     } else {
@@ -132,18 +136,14 @@ const DetailProduct = () => {
           <div className="flex flex-row items-center">
             <button
               className="bg-gray-200 py-2 px-5 rounded-lg text-violet-800 text-3xl"
-              onClick={() => setAmount((prev) => Math.max(prev - 1, 1))} // Decrease quantity, no less than one
+              onClick={() => setAmount((prev) => Math.max(prev - 1, 1))} // Decrease quantity
             >
               -
             </button>
             <span className="py-4 px-6 rounded-lg">{amount}</span>
             <button
               className="bg-gray-200 py-2 px-5 rounded-lg text-violet-800 text-3xl"
-              onClick={() => {
-                if (amount < selectedVariant.quantity) {
-                  setAmount((prev) => prev + 1); // Increase quantity, but not beyond available stock
-                }
-              }}
+              onClick={() => setAmount((prev) => prev + 1)}
             >
               +
             </button>

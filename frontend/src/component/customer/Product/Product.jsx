@@ -40,7 +40,6 @@ const Product = () => {
       .get("http://localhost:8000/api/products") // Replace with your actual URL
       .then((response) => {
         setProducts(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
