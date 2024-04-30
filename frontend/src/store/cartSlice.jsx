@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // Define the initial state for the cart
 const initialState = {
-  carts: [], // Initial cart is empty
+  carts: [],
 };
 
 // Create a Redux slice for cart operations
@@ -10,52 +10,51 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    // Action to add an item to the cart with the specified quantity
+    // Action to add an item to the cart
     addToCart: (state, action) => {
       const newItem = action.payload;
-      const { quantity } = newItem.selectedVariant;
 
-      // Find if the item already exists in the cart
+      // Check if the item already exists in the cart
       const existingItem = state.carts.find((item) => item.id === newItem.id);
 
       if (existingItem) {
-        // Check if the specific variant (by size) already exists
+        // If item exists, check if the variant (based on size) exists
         const existingVariant = existingItem.variants.find(
           (variant) => variant.size === newItem.selectedVariant.size
         );
 
         if (existingVariant) {
-          // If variant exists, increase its quantity by the specified amount
-          existingVariant.quantity += quantity;
+          // If variant exists, increase its quantity
+          existingVariant.quantity += 1;
         } else {
-          // If variant doesn't exist, add it with the specified quantity
+          // If variant doesn't exist, add it with initial quantity
           existingItem.variants.push({
             ...newItem.selectedVariant,
-            quantity,
+            quantity: 1,
           });
         }
       } else {
-        // If the item doesn't exist in the cart, add it with its variant
+        // If item doesn't exist, add it to the cart
         state.carts.push({
           id: newItem.id,
           name: newItem.name,
           image: newItem.image,
-          variants: [{ ...newItem.selectedVariant, quantity }],
+          variants: [{ ...newItem.selectedVariant, quantity: 1 }],
         });
       }
     },
 
-    // Action to remove or decrease item/variant from the cart
+    // Action to delete an item or its variant from the cart
     deleteFromCart: (state, action) => {
       const { id, size } = action.payload;
 
-      // Find the index of the existing item in the cart
+      // Find the index of the item in the cart
       const existingItemIndex = state.carts.findIndex((item) => item.id === id);
 
       if (existingItemIndex !== -1) {
         const variants = state.carts[existingItemIndex].variants;
 
-        // Find the specific variant to be removed or reduced
+        // Find the index of the variant to be deleted
         const existingVariantIndex = variants.findIndex(
           (variant) => variant.size === size
         );
@@ -64,14 +63,14 @@ const cartSlice = createSlice({
           const existingVariant = variants[existingVariantIndex];
 
           if (existingVariant.quantity > 1) {
-            // Decrease quantity if it's greater than one
+            // Decrease quantity if more than one
             existingVariant.quantity -= 1;
           } else {
-            // If only one quantity, remove the variant
+            // If only one, remove the variant
             variants.splice(existingVariantIndex, 1);
 
+            // If no more variants, remove the item from the cart
             if (variants.length === 0) {
-              // If no variants are left, remove the item entirely
               state.carts.splice(existingItemIndex, 1);
             }
           }
@@ -81,8 +80,8 @@ const cartSlice = createSlice({
   },
 });
 
-// Export the action creators for cart operations
+// Export the action creators for adding and deleting from the cart
 export const { addToCart, deleteFromCart } = cartSlice.actions;
 
-// Export the reducer for Redux store integration
+// Export the reducer to be used in the Redux store
 export default cartSlice.reducer;

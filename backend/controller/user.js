@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../model/usermodel");
 const bcrypt = require("bcrypt");
+const { sendEmail, generateRandomNumber } = require("../helpers/utils");
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 
@@ -65,41 +66,45 @@ const updateUser = async (req, res) => {
   } catch (error) {
     console.error("Error updating user:", error);
     return res.status(500).json({ message: "Internal server error" });
-
   }
 };
 
 const signupUser = async (req, res) => {
-  const { email, password } = req.body;
+  const email = "pukarlamichhane767@gmail.com";
 
-  // Validate input
-  if (!email || !password) {
-    return res.status(400).json({ message: "Email and password are required" });
-  }
+  // Generate a random number by calling the function
+  const code = generateRandomNumber();
+  console.log(code);
+  // Await the asynchronous `sendEmail` function
+  await sendEmail(email, code);
 
-  const hash = await bcrypt.hash(password, 10);
-  try {
-    // Check if username already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
-    }
+  // // Validate input
+  // if (!email || !password) {
+  //   return res.status(400).json({ message: "Email and password are required" });
+  // }
 
-    // Add the new user to the database
-    await User.create({ email, password: hash });
+  // const hash = await bcrypt.hash(password, 10);
+  // try {
+  //   // Check if username already exists
+  //   const existingUser = await User.findOne({ email });
+  //   if (existingUser) {
+  //     return res.status(400).json({ message: "User already exists" });
+  //   }
 
-    
-    const token = jwt.sign({  email }, JWT_SECRET);
-    return res.json({
-      message: "Signup successful",
-      email: email,
-      token,
-    });
+  //   // Add the new user to the database
+  //   await User.create({ email, password: hash });
 
-  } catch (error) {
-    console.error("Error during signup:", error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
+  //   const token = jwt.sign({  email }, JWT_SECRET);
+  //   return res.json({
+  //     message: "Signup successful",
+  //     email: email,
+  //     token,
+  //   });
+
+  // } catch (error) {
+  //   console.error("Error during signup:", error);
+  //   return res.status(500).json({ message: "Internal server error" });
+  // }
 };
 
 const deleteUser = async (req, res) => {

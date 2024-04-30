@@ -95,7 +95,7 @@ const DetailProduct = () => {
         <img
           src={item.image}
           alt={item.name}
-          className="mt-6 ml-[60px] w-[30rem] h-[30rem] object-cover rounded-xl"
+          className="mt-6 ml-[60px] w-[35rem] h-[30rem] object-cover rounded-xl"
         />
       </div>
       <div className="flex flex-col gap-4 lg:w-2/4">
@@ -105,7 +105,7 @@ const DetailProduct = () => {
         {selectedVariant && (
           <>
             <h6 className="text-2xl font-semibold">
-              ${selectedVariant.price * amount} {/* Total price */}
+              Rs{selectedVariant.price * amount} {/* Total price */}
             </h6>
             <p className="text-lg">
               Available quantity: {selectedVariant.quantity}
@@ -148,11 +148,19 @@ const DetailProduct = () => {
               +
             </button>
           </div>
+        </div>
+        <div className="flex gap-10">
           <button
             className="bg-violet-800 text-white font-semibold py-3 px-16 rounded-xl h-full"
             onClick={handleAddToCart} // Add to cart
           >
             Add to Cart
+          </button>
+          <button
+            className="bg-violet-800 text-white font-semibold py-3 px-16 rounded-xl h-full"
+            onClick={handleAddToCart} // Add to cart
+          >
+            Buy now
           </button>
         </div>
       </div>

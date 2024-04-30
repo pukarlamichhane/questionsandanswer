@@ -10,7 +10,7 @@ const HomesecCar = () => {
   };
 
   // eslint-disable-next-line no-unused-vars, react/jsx-key
-  const items = [1, 1, 1, 1, 1, 1].map((item) => <Homecard></Homecard>);
+  const items = [1, 1, 1, 1, 1].map((item) => <Homecard></Homecard>);
 
   return (
     <div className="relative px-4 lg:px-8">
@@ -21,7 +21,7 @@ const HomesecCar = () => {
           items={items}
           disableButtonsControls
           autoPlay
-          autoPlayInterval={5000}
+          autoPlayInterval={3000}
           infinite
           responsive={responsive}
         />

@@ -8,12 +8,6 @@ const Homepage = () => {
       <div className="space-y-10 py-20 flex flex-col justify-center">
         <HomesecCar></HomesecCar>
         <HomesecCar></HomesecCar>
-        <HomesecCar></HomesecCar>
-        <HomesecCar></HomesecCar>
-        <HomesecCar></HomesecCar>
-        <HomesecCar></HomesecCar>
-        <HomesecCar></HomesecCar>
-        <HomesecCar></HomesecCar>
       </div>
     </div>
   );

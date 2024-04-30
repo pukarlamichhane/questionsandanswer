@@ -29,7 +29,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 // User routes
 router.post("/login", login);
-router.post("/signup", signupUser);
+router.get("/signup", signupUser);
 router.post("/adduser", addUser);
 router.put("/users/:username", updateUser); // Update user by username
 router.delete("/users/:username", deleteUser); // Delete user by username
