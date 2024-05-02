@@ -43,8 +43,5 @@ router.post("/addproduct", upload.single("itemImage"), addProduct); // Add Produ
 router.get("/products", getAllProducts); // Get all Products
 
 // Password routes
-router.post("/checkemail", checkEmail);
-router.post("/checkcode", checkCode);
-router.post("/changepassword", changepassword);
 
 module.exports = router;
