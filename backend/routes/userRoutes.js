@@ -24,11 +24,6 @@ const {
 } = require("../controller/password");
 
 const multer = require("multer");
-const {
-  checkEmail,
-  changepassword,
-  verifyEmail,
-} = require("../controller/password");
 
 const router = express.Router();
 
@@ -53,7 +48,6 @@ router.get("/products", getAllProducts); // Get all Products
 router.post("/checkCode", verifyEmail);
 router.post("/checkEmail", checkEmail);
 router.post("/changepassword", changepassword);
-
 router.post("/resendcode", emailResend);
 
 module.exports = router;
