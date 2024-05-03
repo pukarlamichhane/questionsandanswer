@@ -2,81 +2,55 @@ const User = require("../model/usermodel");
 const Verfied = require("../model/verfied");
 const { generateRandomNumber, sendEmail } = require("../helpers/utils");
 
-// // Function to handle checking email
-// const checkEmail = async (req, res) => {
-//   const { email } = req.body;
-//   console.log(email);
-//   try {
-//     // Check if the email exists in the database
-//     const user = await User.findOne({ email });
+const checkEmail = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ error: "Email not found" });
+    }
+    const code = generateRandomNumber();
+    console.log(code);
+    await Verfied.create({ email, code }); // Corrected typo here
+    await sendEmail(email, code);
+    // If email exists, set it in cookies
 
-//     // If no matching email found
-//     if (!user) {
-//       return res.status(400).json({ error: "Email not found" });
-//     }
+    res.status(200).json({ message: "Email Validated", email: user.email });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
-//     const code = await generateRandomNumber();
-//     console.log(code);
-//     await Verfied.create({ email, code }); // Corrected typo here
-//     // await sendEmail(email, code);
-//     // If email exists, set it in cookies
-//     res.cookie("email", email, { maxAge: 900000, httpOnly: true });
-//     res.status(200).json({ message: "Email Validated and Stored in Cookies" });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
+const changepassword = async (req, res) => {
+  const { email, password, confirmPassword } = req.body; // Corrected variable name
 
-// // Function to handle checking code
-// const checkCode = async (req, res) => {
-//   const { code } = req.body;
-//   const userEmail = req.cookies.email;
+  if (password !== confirmPassword) {
+    return res.status(400).json({ error: "Passwords do not match." });
+  }
 
-//   if (!userEmail) {
-//     return res.status(400).json({ error: "Email not found in cookies" });
-//   }
+  try {
+    // Securely hash the new password
+    const hash = await bcrypt.hash(password, 10);
 
-//   try {
-//     // Check if the user with the provided email exists in the database
-//     const user = await Verfied.findOne({ email: userEmail });
+    // Update the user's password in the database
+    const updatedUser = await User.findOneAndUpdate(
+      { email },
+      { $set: { password: hash } },
+      { new: true } // Return the updated user
+    );
 
-//     if (!user) {
-//       return res.status(400).json({ error: "User not found" });
-//     }
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found." });
+    }
+    res.status(200).json({ message: "Password updated successfully." });
+  } catch (error) {
+    console.error("Error during password update:", error); // Log the error for debugging
+    res.status(500).json({ error: "Internal server error." });
+  }
+};
 
-//     // Check if the provided code matches some logic in your application
-//     if (code === user.code) {
-//       return res.status(200).json({ message: "Code is correct" });
-//     } else {
-//       return res.status(400).json({ error: "Incorrect code" });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
-
-// const changepassword = async (req, res) => {
-//   const userEmail = req.cookies.email;
-//   const { password, confrompassword } = req.body;
-
-//   if (password != confrompassword) {
-//     return res.status(400).json({ error: "password no match" });
-//   } else {
-//     const hash = await bcrypt.hash(password, 10);
-//     await User.findOneAndUpdate({ email, hash });
-//     res.status(200).json("Password update sucessfully");
-//   }
-// };
-
-// // Export the functions
-// module.exports = {
-//   checkEmail,
-//   checkCode,
-//   changepassword,
-// };
-
+// Export the functions
 const verifyEmail = async (req, res) => {
   const { email, code } = req.body;
 
@@ -121,10 +95,8 @@ const verifyEmail = async (req, res) => {
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found." });
     }
-
     return res.status(200).json({
       message: "Email verified successfully and user is now verified.",
-      user: updatedUser,
     });
   } catch (error) {
     console.error("Error during email verification:", error);
@@ -132,4 +104,58 @@ const verifyEmail = async (req, res) => {
   }
 };
 
-module.exports = verifyEmail;
+// For generating a random verification code
+
+const emailResend = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: "Email is required." });
+  }
+
+  try {
+    // Fetch the verification record by email
+    const verification = await Verified.findOne({ email });
+
+    if (!verification) {
+      return res
+        .status(404)
+        .json({ message: "No verification record found for this email." });
+    }
+
+    const currentTime = new Date();
+    const updatedAt = new Date(verification.updatedAt);
+    const timeDifference = currentTime - updatedAt;
+    const timeDifferenceInMinutes = timeDifference / (1000 * 60);
+
+    if (timeDifferenceInMinutes > 2) {
+      // Generate a new verification code
+      const newVerificationCode = generateRandomNumber(); // Generating a random hex code
+      // Update the record with the new verification code and updatedAt time
+      verification.code = newVerificationCode;
+      verification.updatedAt = currentTime;
+      await verification.save(); // Save the updated record
+      await sendEmail(email, newVerificationCode);
+      // You might want to send an email with the new code
+      // sendVerificationEmail(email, newVerificationCode);
+      return res.status(200).json({
+        message: "A new verification code has been sent to your email.",
+      });
+    }
+
+    return res.status(400).json({
+      message:
+        "Current verification code is still valid. Please try again later.",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error." });
+  }
+};
+
+module.exports = {
+  checkEmail,
+  changepassword,
+  verifyEmail,
+  emailResend,
+};
