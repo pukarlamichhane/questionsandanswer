@@ -16,17 +16,12 @@ const {
   getAllProducts,
 } = require("../controller/product");
 
-<<<<<<< HEAD
 const {
   checkEmail,
   changepassword,
   verifyEmail,
   emailResend,
 } = require("../controller/password");
-
-=======
->>>>>>> 1d0a1b255a10e6b28ef1fb6e5580958ac2230536
-const { checkRole } = require("../middleware/middleware");
 
 const multer = require("multer");
 const {
@@ -58,9 +53,7 @@ router.get("/products", getAllProducts); // Get all Products
 router.post("/checkCode", verifyEmail);
 router.post("/checkEmail", checkEmail);
 router.post("/changepassword", changepassword);
-<<<<<<< HEAD
+
 router.post("/resendcode", emailResend);
 
-=======
->>>>>>> 1d0a1b255a10e6b28ef1fb6e5580958ac2230536
 module.exports = router;

@@ -149,7 +149,6 @@ const verifyEmail = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
 // For generating a random verification code
 
 const emailResend = async (req, res) => {
@@ -199,14 +198,10 @@ const emailResend = async (req, res) => {
   }
 };
 
-=======
->>>>>>> 1d0a1b255a10e6b28ef1fb6e5580958ac2230536
+
 module.exports = {
   checkEmail,
   changepassword,
   verifyEmail,
-<<<<<<< HEAD
   emailResend,
-=======
->>>>>>> 1d0a1b255a10e6b28ef1fb6e5580958ac2230536
 };
