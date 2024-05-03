@@ -2,81 +2,58 @@ const User = require("../model/usermodel");
 const Verfied = require("../model/verfied");
 const { generateRandomNumber, sendEmail } = require("../helpers/utils");
 
-// // Function to handle checking email
-// const checkEmail = async (req, res) => {
-//   const { email } = req.body;
-//   console.log(email);
-//   try {
-//     // Check if the email exists in the database
-//     const user = await User.findOne({ email });
+const checkEmail = async (req, res) => {
+  const { email } = req.body;
+  console.log(email);
+  try {
+    const user = await User.findOne({ email });
 
-//     // If no matching email found
-//     if (!user) {
-//       return res.status(400).json({ error: "Email not found" });
-//     }
+    if (!user) {
+      return res.status(400).json({ error: "Email not found" });
+    }
+    const code = await generateRandomNumber();
+    console.log(code);
+    await Verfied.create({ email, code }); // Corrected typo here
+    await sendEmail(email, code);
+    // If email exists, set it in cookies
 
-//     const code = await generateRandomNumber();
-//     console.log(code);
-//     await Verfied.create({ email, code }); // Corrected typo here
-//     // await sendEmail(email, code);
-//     // If email exists, set it in cookies
-//     res.cookie("email", email, { maxAge: 900000, httpOnly: true });
-//     res.status(200).json({ message: "Email Validated and Stored in Cookies" });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
+    res.status(200).json({ message: "Email Validated", email: user.email });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
-// // Function to handle checking code
-// const checkCode = async (req, res) => {
-//   const { code } = req.body;
-//   const userEmail = req.cookies.email;
+const changepassword = async (req, res) => {
+  const { email, password, confirmPassword } = req.body; // Corrected variable name
 
-//   if (!userEmail) {
-//     return res.status(400).json({ error: "Email not found in cookies" });
-//   }
+  if (password !== confirmPassword) {
+    return res.status(400).json({ error: "Passwords do not match." });
+  }
 
-//   try {
-//     // Check if the user with the provided email exists in the database
-//     const user = await Verfied.findOne({ email: userEmail });
+  try {
+    // Securely hash the new password
+    const hash = await bcrypt.hash(password, 10);
 
-//     if (!user) {
-//       return res.status(400).json({ error: "User not found" });
-//     }
+    // Update the user's password in the database
+    const updatedUser = await User.findOneAndUpdate(
+      { email },
+      { $set: { password: hash } },
+      { new: true } // Return the updated user
+    );
 
-//     // Check if the provided code matches some logic in your application
-//     if (code === user.code) {
-//       return res.status(200).json({ message: "Code is correct" });
-//     } else {
-//       return res.status(400).json({ error: "Incorrect code" });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found." });
+    }
 
-// const changepassword = async (req, res) => {
-//   const userEmail = req.cookies.email;
-//   const { password, confrompassword } = req.body;
+    res.status(200).json({ message: "Password updated successfully." });
+  } catch (error) {
+    console.error("Error during password update:", error); // Log the error for debugging
+    res.status(500).json({ error: "Internal server error." });
+  }
+};
 
-//   if (password != confrompassword) {
-//     return res.status(400).json({ error: "password no match" });
-//   } else {
-//     const hash = await bcrypt.hash(password, 10);
-//     await User.findOneAndUpdate({ email, hash });
-//     res.status(200).json("Password update sucessfully");
-//   }
-// };
-
-// // Export the functions
-// module.exports = {
-//   checkEmail,
-//   checkCode,
-//   changepassword,
-// };
-
+// Export the functions
 const verifyEmail = async (req, res) => {
   const { email, code } = req.body;
 
@@ -132,4 +109,8 @@ const verifyEmail = async (req, res) => {
   }
 };
 
-module.exports = verifyEmail;
+module.exports = {
+  checkEmail,
+  changepassword,
+  verifyEmail,
+};

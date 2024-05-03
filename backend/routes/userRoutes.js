@@ -14,14 +14,15 @@ const {
   addProduct,
   getAllProducts,
 } = require("../controller/product");
-const {
-  checkEmail,
-  checkCode,
-  changepassword,
-} = require("../controller/password");
+
 const { checkRole } = require("../middleware/middleware");
 
 const multer = require("multer");
+const {
+  checkEmail,
+  changepassword,
+  verifyEmail,
+} = require("../controller/password");
 
 const router = express.Router();
 
@@ -43,5 +44,7 @@ router.post("/addproduct", upload.single("itemImage"), addProduct); // Add Produ
 router.get("/products", getAllProducts); // Get all Products
 
 // Password routes
-
+router.post("/checkCode", verifyEmail);
+router.post("/checkEmail", checkEmail);
+router.post("/changepassword", changepassword);
 module.exports = router;
