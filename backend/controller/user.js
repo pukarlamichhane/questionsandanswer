@@ -70,11 +70,11 @@ const updateUser = async (req, res) => {
 };
 
 const signupUser = async (req, res) => {
-  const email = "pukarlamichhane767@gmail.com";
-
+  const { email, password } = req.body;
   // Generate a random number by calling the function
+
   const code = generateRandomNumber();
-  console.log(code);
+  console.log(password);
   // Await the asynchronous `sendEmail` function
   await sendEmail(email, code);
 

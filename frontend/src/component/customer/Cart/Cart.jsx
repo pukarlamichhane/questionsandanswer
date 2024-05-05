@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"; // Access Redux state
-import Cartitem from "./Cartitem"; // Import Cartitem component
+import Cartitem from "./Cartitem"; // Import CartItem component (assuming the filename is "CartItem.jsx")
 import { Button } from "@mui/material"; // Material-UI components
 import { useNavigate } from "react-router-dom"; // React Router hook for navigation
 import { useState } from "react"; // React hook for local state management
@@ -23,7 +23,7 @@ const Cart = () => {
     return acc + itemTotal; // Accumulate the total price for the cart
   }, 0);
 
-  const handleCartitemClick = (itemId) => {
+  const handleCartItemClick = (itemId) => {
     navigate(`/product/${itemId}`); // Navigate to the product detail page
   };
 
@@ -43,7 +43,7 @@ const Cart = () => {
               item={item}
               selectedSize={selectedSize}
               onSizeChange={handleSizeChange} // Pass size change handler
-              onClick={() => handleCartitemClick(item.id)} // Pass click handler for navigation
+              onClick={() => handleCartItemClick(item.id)} // Pass click handler for navigation
             />
           ))}
         </div>
@@ -54,8 +54,9 @@ const Cart = () => {
             {" "}
             {/* Border and padding */}
             <p className="uppercase font-bold text-gray-600 pb-4">
-              Price details
-            </p>{" "}
+              {" "}
+              Price details{" "}
+            </p>
             {/* Section heading */}
             <hr className="border-gray-300" /> {/* Horizontal line */}
             <div className="space-y-3 font-semibold text-gray-800 mt-4">
@@ -74,7 +75,7 @@ const Cart = () => {
               sx={{ px: "2rem", py: "1rem", bgcolor: "#9155fd" }}
             >
               Checkout
-            </Button>{" "}
+            </Button>
             {/* Checkout button */}
           </div>
         </div>
